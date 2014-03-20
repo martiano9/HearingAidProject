@@ -53,6 +53,8 @@
 		D7265C0418D089540081CDEC /* RBJ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF318D089540081CDEC /* RBJ.cpp */; };
 		D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF418D089540081CDEC /* RootFinder.cpp */; };
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
+		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
+		D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D7BD126618D97C0600C66D31 /* 04.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +154,9 @@
 		D7265BF318D089540081CDEC /* RBJ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RBJ.cpp; sourceTree = "<group>"; };
 		D7265BF418D089540081CDEC /* RootFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RootFinder.cpp; sourceTree = "<group>"; };
 		D7265BF518D089540081CDEC /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
+		D7BD126318D97B6700C66D31 /* FilterBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterBank.h; sourceTree = "<group>"; };
+		D7BD126418D97B6700C66D31 /* FilterBank.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterBank.mm; sourceTree = "<group>"; };
+		D7BD126618D97C0600C66D31 /* 04.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +229,8 @@
 				D7265B5B18D0046E0081CDEC /* Main_iPad.storyboard */,
 				D7265B5E18D0046E0081CDEC /* ViewController.h */,
 				D7265B5F18D0046E0081CDEC /* ViewController.mm */,
+				D7BD126318D97B6700C66D31 /* FilterBank.h */,
+				D7BD126418D97B6700C66D31 /* FilterBank.mm */,
 				D7265B6118D0046E0081CDEC /* Images.xcassets */,
 				D7265B4D18D0046E0081CDEC /* Supporting Files */,
 			);
@@ -233,6 +240,7 @@
 		D7265B4D18D0046E0081CDEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D7BD126618D97C0600C66D31 /* 04.m4a */,
 				D7265BA418D012190081CDEC /* TLC.mp3 */,
 				D7265BA218D00E910081CDEC /* 01.wav */,
 				D7265B4E18D0046E0081CDEC /* HearingAid-Info.plist */,
@@ -265,7 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				D7265BCB18D089540081CDEC /* DSPFilters */,
-				D7265BC118D063D00081CDEC /*  ExtAudioFile */,
+				D7265BC118D063D00081CDEC /* ExtAudioFile */,
 				D7265BAF18D0256F0081CDEC /* PublicUtility */,
 				D7265B8318D00D1C0081CDEC /* AudioFileReader */,
 				D7265B8218D008B30081CDEC /* FDWaveformView */,
@@ -309,7 +317,7 @@
 			path = PublicUtility;
 			sourceTree = "<group>";
 		};
-		D7265BC118D063D00081CDEC /*  ExtAudioFile */ = {
+		D7265BC118D063D00081CDEC /* ExtAudioFile */ = {
 			isa = PBXGroup;
 			children = (
 				D7265BC818D082A50081CDEC /* EAFUtilities.h */,
@@ -319,7 +327,7 @@
 				D7265BC418D063DD0081CDEC /* EAFWrite.h */,
 				D7265BC518D063DD0081CDEC /* EAFWrite.mm */,
 			);
-			name = " ExtAudioFile";
+			name = ExtAudioFile;
 			sourceTree = "<group>";
 		};
 		D7265BCB18D089540081CDEC /* DSPFilters */ = {
@@ -461,6 +469,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */,
 				D7265BA518D012190081CDEC /* TLC.mp3 in Resources */,
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
@@ -510,6 +519,7 @@
 				D7265BAA18D023400081CDEC /* AMAudioFileReader.mm in Sources */,
 				D7265BFB18D089540081CDEC /* ChebyshevII.cpp in Sources */,
 				D7265BFF18D089540081CDEC /* Elliptic.cpp in Sources */,
+				D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */,
 				D7265BC618D063DD0081CDEC /* EAFRead.mm in Sources */,
 				D7265BFC18D089540081CDEC /* Custom.cpp in Sources */,
 				D7265BBA18D0256F0081CDEC /* CAStreamBasicDescription.cpp in Sources */,

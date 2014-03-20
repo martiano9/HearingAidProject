@@ -13,14 +13,14 @@
     IBOutlet FDWaveformView *waveform;
     IBOutlet FDWaveformView *waveform1;
     IBOutlet FDWaveformView *waveform2;
+    IBOutlet FDWaveformView *waveform3;
+    IBOutlet FDWaveformView *waveform4;
+    IBOutlet FDWaveformView *waveform5;
+    IBOutlet FDWaveformView *waveform6;
     
     NSURL *_originalFile;
-    NSURL *_filterdFile1;
-    NSURL *_filterdFile2;
     
     float **_originalData;
-    float **_filteredData1;
-    float **_filteredData2;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
