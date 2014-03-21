@@ -35,6 +35,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    //TODO: Change to desired step
+    // 1: Frequency filter
+    // 2: Envelop extractor
+    // 3: Diffirentiator
+    // 4: Half-wave rectification
+    int step = 4;
+    
     // Path for original file
     NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];
     _originalFile = [NSURL fileURLWithPath:inputSound];
@@ -62,42 +69,42 @@
     //
     FilterBank *bank1 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:1 Data:_originalData];
     bank1.waveFormView = waveform1;
-    [bank1 processToStep:4];
+    [bank1 processToStep:step];
     
     //
     // Init filter bank2
     //
     FilterBank *bank2 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:2 Data:_originalData];
     bank2.waveFormView = waveform2;
-    [bank2 processToStep:4];
+    [bank2 processToStep:step];
     
     //
     // Init filter bank3
     //
     FilterBank *bank3 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:3 Data:_originalData];
     bank3.waveFormView = waveform3;
-    [bank3 processToStep:4];
+    [bank3 processToStep:step];
     
     //
     // Init filter bank4
     //
     FilterBank *bank4 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:4 Data:_originalData];
     bank4.waveFormView = waveform4;
-    [bank4 processToStep:4];
+    [bank4 processToStep:step];
     
     //
     // Init filter bank5
     //
     FilterBank *bank5 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:5 Data:_originalData];
     bank5.waveFormView = waveform5;
-    [bank5 processToStep:4];
+    [bank5 processToStep:step];
     
     //
     // Init filter bank6
     //
     FilterBank *bank6 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:6 Data:_originalData];
     bank6.waveFormView = waveform6;
-    [bank6 processToStep:4];
+    [bank6 processToStep:step];
 }
 
 - (BOOL)prefersStatusBarHidden {
