@@ -23,6 +23,7 @@
 @property (nonatomic, copy) UIColor *wavesColor;
 @property (nonatomic, copy) UIColor *progressColor;
 @property (nonatomic)       float* soundData;
+@property (nonatomic)       BOOL isMirror;
 @end
 
 @protocol FDWaveformViewDelegate <NSObject>

@@ -60,6 +60,7 @@
 
 - (void)initialize
 {
+    self.isMirror = YES;
     self.image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     self.highlightedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     self.image.contentMode = UIViewContentModeScaleToFill;
@@ -242,17 +243,32 @@
     CGContextSetLineWidth(context, 1.0);
     CGContextSetStrokeColorWithColor(context, [self.wavesColor CGColor]);
     
-    float halfGraphHeight = (imageHeight / 2);
-    float centerLeft = halfGraphHeight;
+    //float halfGraphHeight = (imageHeight / 2);
+    float centerLeft = (imageHeight / 2);
     float sampleAdjustmentFactor = imageHeight / (normalizeMax - noiseFloor) / 2;
     
-    for (NSInteger intSample=0; intSample<sampleCount; intSample++) {
-        Float32 sample = *samples++;
-        float pixels = (sample - noiseFloor) * sampleAdjustmentFactor;
-        CGContextMoveToPoint(context, intSample, centerLeft-pixels);
-        CGContextAddLineToPoint(context, intSample, centerLeft+pixels);
-        CGContextStrokePath(context);
+    if (self.isMirror) {
+        for (NSInteger intSample=0; intSample<sampleCount; intSample++) {
+            Float32 sample = *samples++;
+            float pixels = (sample - noiseFloor) * sampleAdjustmentFactor;
+            CGContextMoveToPoint(context, intSample, centerLeft-pixels);
+            CGContextAddLineToPoint(context, intSample, centerLeft+pixels);
+            CGContextStrokePath(context);
+        }
+    } else {
+        CGContextBeginPath (context);
+        CGContextMoveToPoint(context, 0, imageHeight);
+        NSLog(@"%d",sampleCount);
+        for (NSInteger intSample=0; intSample<sampleCount; intSample++) {
+            Float32 sample = *samples++;
+            float pixels = (sample - noiseFloor) * sampleAdjustmentFactor;
+            CGContextAddLineToPoint(context, intSample, imageHeight-pixels);
+        }
+        CGContextAddLineToPoint(context, sampleCount, imageHeight);
+        CGContextClosePath(context);
+        CGContextDrawPath(context, kCGPathStroke);
     }
+    
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     CGRect drawRect = CGRectMake(0, 0, image.size.width, image.size.height);

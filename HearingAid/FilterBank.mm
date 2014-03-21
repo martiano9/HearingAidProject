@@ -39,9 +39,11 @@
         _fileURL = [NSURL fileURLWithPathComponents:pathComponents];
     
         // Switch by bankIndex
-        if (bankIndex == 1) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 2> (1024);
+        if (bankIndex == 1 || bankIndex == 9) {
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -50,8 +52,10 @@
             _filter->setParams (params);
         }
         if (bankIndex == 2) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -61,8 +65,10 @@
             _filter->setParams (params);
         }
         if (bankIndex == 3) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -72,8 +78,10 @@
             _filter->setParams (params);
         }
         if (bankIndex == 4) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -83,8 +91,10 @@
             _filter->setParams (params);
         }
         if (bankIndex == 5) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::BandPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -94,8 +104,10 @@
             _filter->setParams (params);
         }
         if (bankIndex == 6) {
-            if (_numberOfChannels == 1) _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::HighPass<6>, 1> (1024);
-            else _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::HighPass<6>, 2> (1024);
+            if (_numberOfChannels == 1)
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::HighPass<6>, 1> (1024);
+            else
+                _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::HighPass<6>, 2> (1024);
             
             Dsp::Params params;
             params[0] = 44100;  // sample rate
@@ -119,14 +131,55 @@
     for(int i = 0; i < _numberOfChannels; i++) {
         memcpy(_filteredData[i], _originalData[i], (size_t)_frames * sizeof(float));
     }
+    
+    // ================================================================
+    // STEP 1:
+    // ================================================================
     // Process filter
     _filter->process(_frames, _filteredData);
+    _waveFormView.isMirror = YES;
+    if (step==1) goto writeFile;
     
-    if (step<=1) {
-        // Path for band 1 file
-        [self writeToFile:_fileURL withData:_filteredData frames:_frames];
-        return;
+    // ================================================================
+    // STEP 2:
+    // ================================================================
+    for (int channel = 0; channel<_numberOfChannels; channel++) {
+        float lowpassed = fabsf(_filteredData[channel][0]);
+        for (int frame = 0; frame<_frames; frame++) {
+            float absVal = fabsf(_filteredData[channel][frame]);
+            
+            lowpassed = (absVal * 0.1) + (lowpassed * (1.0 - 0.1));
+            _filteredData[channel][frame] = lowpassed;
+            
+            //NSLog(@"%f %f",absVal, lowpassed);
+        }
     }
+    _waveFormView.isMirror = NO;
+    if (step==2) goto writeFile;
+    
+    // ================================================================
+    // STEP 3:
+    // ================================================================
+    for (int channel = 0; channel<_numberOfChannels; channel++) {
+        for (int frame = 1; frame<_frames; frame++) {
+            float diff = _filteredData[channel][frame] - _filteredData[channel][frame-1];
+            if (step==4) {
+                _filteredData[channel][frame] = MAX(0, diff);
+            } else {
+                _filteredData[channel][frame] = diff;
+            }
+            
+            //NSLog(@"%f %f",absVal, lowpassed);
+        }
+    }
+    _waveFormView.isMirror = NO;
+    if (step==3) goto writeFile;
+
+    
+writeFile:
+    [self writeToFile:_fileURL withData:_filteredData frames:_frames];
+    return;
+    
 }
 
 - (void) writeToFile:(NSURL*) url withData:(float**)data frames:(long)frames {

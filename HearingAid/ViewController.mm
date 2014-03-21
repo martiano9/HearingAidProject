@@ -62,42 +62,42 @@
     //
     FilterBank *bank1 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:1 Data:_originalData];
     bank1.waveFormView = waveform1;
-    [bank1 processToStep:1];
+    [bank1 processToStep:4];
     
     //
     // Init filter bank2
     //
     FilterBank *bank2 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:2 Data:_originalData];
     bank2.waveFormView = waveform2;
-    [bank2 processToStep:1];
+    [bank2 processToStep:4];
     
     //
     // Init filter bank3
     //
     FilterBank *bank3 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:3 Data:_originalData];
     bank3.waveFormView = waveform3;
-    [bank3 processToStep:1];
+    [bank3 processToStep:4];
     
     //
     // Init filter bank4
     //
     FilterBank *bank4 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:4 Data:_originalData];
     bank4.waveFormView = waveform4;
-    [bank4 processToStep:1];
+    [bank4 processToStep:4];
     
     //
     // Init filter bank5
     //
     FilterBank *bank5 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:5 Data:_originalData];
     bank5.waveFormView = waveform5;
-    [bank5 processToStep:1];
+    [bank5 processToStep:4];
     
     //
     // Init filter bank6
     //
     FilterBank *bank6 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:6 Data:_originalData];
     bank6.waveFormView = waveform6;
-    [bank6 processToStep:1];
+    [bank6 processToStep:4];
 }
 
 - (BOOL)prefersStatusBarHidden {
