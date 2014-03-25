@@ -17,6 +17,8 @@
     float** _originalData;
     
     float** _filteredData;
+    float** _filteredData16;
+    float** _atom;
     NSURL* _fileURL;    
 }
 

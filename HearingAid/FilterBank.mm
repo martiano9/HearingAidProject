@@ -126,7 +126,13 @@
         delete [] _filteredData;
     }
     
+    int frames16 = _frames/16;
+    float aFrames = _frames/8;
+    
     // Copy data from original data
+    
+    float** buffer = AllocateAudioBuffer(_numberOfChannels, (int)_frames);
+    
     _filteredData = AllocateAudioBuffer(_numberOfChannels, (int)_frames);
     for(int i = 0; i < _numberOfChannels; i++) {
         memcpy(_filteredData[i], _originalData[i], (size_t)_frames * sizeof(float));
@@ -148,7 +154,7 @@
         for (int frame = 0; frame<_frames; frame++) {
             float absVal = fabsf(_filteredData[channel][frame]);
             
-            lowpassed = (absVal * 0.1) + (lowpassed * (1.0 - 0.1));
+            lowpassed = (absVal * 0.05) + (lowpassed * (1.0 - 0.05));
             _filteredData[channel][frame] = lowpassed;
             
             //NSLog(@"%f %f",absVal, lowpassed);
@@ -160,24 +166,75 @@
     // ================================================================
     // STEP 3:
     // ================================================================
+    
+    for(int i = 0; i < _numberOfChannels; i++) {
+        memcpy(buffer[i], _filteredData[i], (size_t)_frames * sizeof(float));
+    }
+    
     for (int channel = 0; channel<_numberOfChannels; channel++) {
         for (int frame = 1; frame<_frames; frame++) {
-            float diff = _filteredData[channel][frame] - _filteredData[channel][frame-1];
-            if (step==4) {
-                _filteredData[channel][frame] = MAX(0, diff);
-            } else {
+                float diff = buffer[channel][frame] - buffer[channel][frame-1];
                 _filteredData[channel][frame] = diff;
-            }
             
             //NSLog(@"%f %f",absVal, lowpassed);
         }
     }
+    
+    // delete old data
+    if (buffer) {
+        for (int i=0; i<_numberOfChannels; i++)
+            delete [] buffer[i];
+        delete [] buffer;
+    }
+    
+    
     _waveFormView.isMirror = NO;
     if (step==3) goto writeFile;
-
+    
+    // ================================================================
+    // STEP 4:
+    // ================================================================
+    _filteredData16 = AllocateAudioBuffer(_numberOfChannels, (int)frames16);
+    for (int channel = 0; channel<_numberOfChannels; channel++) {
+        for (int frame = 0; frame<frames16; frame++) {
+            _filteredData16[channel][frame] = MAX(0, _filteredData[channel][frame*16]);
+        }
+    }
+    _waveFormView.isMirror = NO;
+    
+    if (_filteredData) {
+        for (int i=0; i<_numberOfChannels; i++)
+            delete [] _filteredData[i];
+        delete [] _filteredData;
+    }
+    
+    if (step==4) goto writeFile16;
+    
+    // ================================================================
+    // STEP 5:
+    // ================================================================
+    _atom = AllocateAudioBuffer(_numberOfChannels, (int)frames16/2);
+    
+    for (int channel = 0; channel<_numberOfChannels; channel++) {
+        for (int frame = 0; frame<frames16/2; frame++) {
+            for (int n = 0; n<(frames16/2)-frame ; n ++) {
+                _atom[channel][frame]= _atom[channel][frame]+_filteredData16[channel][n]*_filteredData16[channel][n+frame];
+            }
+        }
+    }
+    
+    _waveFormView.isMirror = NO;
+    if (step==5) goto writeAutomFile;
     
 writeFile:
     [self writeToFile:_fileURL withData:_filteredData frames:_frames];
+    return;
+writeFile16:
+    [self writeToFile:_fileURL withData:_filteredData16 frames:frames16];
+    return;
+writeAutomFile:
+    [self writeToFile:_fileURL withData:_atom frames:frames16/2];
+    NSLog(@"write");
     return;
     
 }
