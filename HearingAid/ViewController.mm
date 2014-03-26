@@ -40,7 +40,7 @@
     // 2: Envelop extractor
     // 3: Diffirentiator
     // 4: Half-wave rectification
-    int step = 4;
+    int step = 2;
     
     // Path for original file
     NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];

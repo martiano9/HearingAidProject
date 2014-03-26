@@ -16,7 +16,7 @@
 
 #define absX(x) (x<0?0-x:x)
 #define minMaxX(x,mn,mx) (x<=mn?mn:(x>=mx?mx:x))
-#define noiseFloor (-65.0)
+#define noiseFloor (-50.0)
 #define decibel(amplitude) (20.0 * log10(absX(amplitude)/32767.0))
 #define imgExt @"png"
 #define imageToData(x) UIImagePNGRepresentation(x)

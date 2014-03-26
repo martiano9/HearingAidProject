@@ -127,7 +127,6 @@
     }
     
     int frames16 = _frames/16;
-    float aFrames = _frames/8;
     
     // Copy data from original data
     
@@ -150,17 +149,27 @@
     // STEP 2:
     // ================================================================
     for (int channel = 0; channel<_numberOfChannels; channel++) {
-        float lowpassed = fabsf(_filteredData[channel][0]);
         for (int frame = 0; frame<_frames; frame++) {
-            float absVal = fabsf(_filteredData[channel][frame]);
-            
-            lowpassed = (absVal * 0.05) + (lowpassed * (1.0 - 0.05));
-            _filteredData[channel][frame] = lowpassed;
-            
+            _filteredData[channel][frame] = fabsf(_filteredData[channel][frame]);
             //NSLog(@"%f %f",absVal, lowpassed);
         }
     }
-    _waveFormView.isMirror = NO;
+
+    
+    delete _filter;
+    if (_numberOfChannels == 1)
+        _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 1> (1024);
+    else
+        _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 2> (1024);
+    
+    Dsp::Params params;
+    params[0] = 44100;  // sample rate
+    params[1] = 6;      // order
+    params[2] = 10;    // cutoff frequency
+    _filter->setParams (params);
+    _filter->process(_frames, _filteredData);
+    
+        _waveFormView.isMirror = NO;
     if (step==2) goto writeFile;
     
     // ================================================================
@@ -172,9 +181,11 @@
     }
     
     for (int channel = 0; channel<_numberOfChannels; channel++) {
+        float lowpassed = 0;
         for (int frame = 1; frame<_frames; frame++) {
-                float diff = buffer[channel][frame] - buffer[channel][frame-1];
-                _filteredData[channel][frame] = diff;
+                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
+                lowpassed = (diff * 0.1) + (lowpassed * (1.0 - 0.1));
+                _filteredData[channel][frame] = lowpassed;
             
             //NSLog(@"%f %f",absVal, lowpassed);
         }
@@ -218,7 +229,7 @@
     for (int channel = 0; channel<_numberOfChannels; channel++) {
         for (int frame = 0; frame<frames16/2; frame++) {
             for (int n = 0; n<(frames16/2)-frame ; n ++) {
-                _atom[channel][frame]= _atom[channel][frame]+_filteredData16[channel][n]*_filteredData16[channel][n+frame];
+                _atom[channel][frame]= _atom[channel][frame]+(_filteredData16[channel][n]*_filteredData16[channel][n+frame]);
             }
         }
     }
@@ -249,10 +260,10 @@ writeAutomFile:
 
 - (void)writerDidFinish:(BOOL)success {
     // Wave form setup
-    _waveFormView.alpha = 1.0f;
-    _waveFormView.audioURL = _fileURL;
-    _waveFormView.doesAllowScrubbing = YES;
-    _waveFormView.doesAllowStretchAndScroll = YES;
+//    _waveFormView.alpha = 1.0f;
+//    _waveFormView.audioURL = _fileURL;
+//    _waveFormView.doesAllowScrubbing = YES;
+//    _waveFormView.doesAllowStretchAndScroll = YES;
 }
 
 @end
