@@ -11,6 +11,7 @@
 #import "Filter.h"
 
 @class FDWaveformView;
+@class AMDataPlot;
 
 @interface FilterBank : NSObject {
     Dsp::Filter *_filter;
@@ -19,15 +20,21 @@
     float** _filteredData;
     float** _filteredData16;
     float** _atom;
-    NSURL* _fileURL;    
+    NSURL* _fileURL;
+    
+    float _atomReducedTime;
+    int _stepToProceed;
 }
 
 @property (nonatomic) UInt32 numberOfChannels;
 @property (nonatomic) float frames;
 @property (nonatomic, weak) FDWaveformView* waveFormView;
+@property (nonatomic, weak) AMDataPlot* waveFormDataView;
 
 
 - (id)initWithFrames:(float)frames Channels:(UInt32)channels FilterType:(int)bankIndex Data:(float**)data;
 - (void)processToStep:(int)step;
+- (float)getNumberOfFrames;
+- (float**)getNumberSoundData;
 
 @end

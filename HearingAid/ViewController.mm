@@ -15,10 +15,14 @@
 #import "EAFUtilities.h"
 #import "Dsp.h"
 #import "FilterBank.h"
+#import "AMDataPlot.h"
 
 #define COUNTOF(x) (sizeof(x)/sizeof(*x))
 
-@interface ViewController () <EAFWriterDelegate>
+@interface ViewController () <EAFWriterDelegate, AMDataPlotDelegate> {
+    AVAudioPlayer* _musicPlayer;
+    int _finishedCount;
+}
 
 @end
 
@@ -33,6 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view, typically from a nib.
     
     //TODO: Change to desired step
@@ -40,7 +45,7 @@
     // 2: Envelop extractor
     // 3: Diffirentiator
     // 4: Half-wave rectification
-    int step = 2;
+    int step = 5;
     
     // Path for original file
     NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];
@@ -67,44 +72,96 @@
     //
     // Init filter bank1
     //
-    FilterBank *bank1 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:1 Data:_originalData];
-    bank1.waveFormView = waveform1;
+    bank1 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:1 Data:_originalData];
+    waveform1.delegate = self;
+    bank1.waveFormDataView = waveform1;
     [bank1 processToStep:step];
     
     //
     // Init filter bank2
     //
-    FilterBank *bank2 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:2 Data:_originalData];
-    bank2.waveFormView = waveform2;
+    bank2 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:2 Data:_originalData];
+    waveform2.delegate = self;
+    bank2.waveFormDataView = waveform2;
     [bank2 processToStep:step];
     
     //
     // Init filter bank3
     //
-    FilterBank *bank3 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:3 Data:_originalData];
-    bank3.waveFormView = waveform3;
+    bank3 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:3 Data:_originalData];
+    waveform3.delegate = self;
+    bank3.waveFormDataView = waveform3;
     [bank3 processToStep:step];
     
     //
     // Init filter bank4
     //
-    FilterBank *bank4 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:4 Data:_originalData];
-    bank4.waveFormView = waveform4;
+    bank4 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:4 Data:_originalData];
+    waveform4.delegate = self;
+    bank4.waveFormDataView = waveform4;
     [bank4 processToStep:step];
     
     //
     // Init filter bank5
     //
-    FilterBank *bank5 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:5 Data:_originalData];
-    bank5.waveFormView = waveform5;
+    bank5 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:5 Data:_originalData];
+    waveform5.delegate = self;
+    bank5.waveFormDataView = waveform5;
     [bank5 processToStep:step];
     
     //
     // Init filter bank6
     //
-    FilterBank *bank6 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:6 Data:_originalData];
-    bank6.waveFormView = waveform6;
+    bank6 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:6 Data:_originalData];
+    waveform6.delegate = self;
+    bank6.waveFormDataView = waveform6;
     [bank6 processToStep:step];
+}
+
+- (void)didFinishLoadData:(BOOL)success {
+    _finishedCount ++;
+    if (_finishedCount == 6) {
+        int nFrames = [bank6 getNumberOfFrames];
+        float* sum = new float[nFrames];
+        
+        float** bank6Data = [bank6 getNumberSoundData];
+        float** bank5Data = [bank5 getNumberSoundData];
+        float** bank4Data = [bank4 getNumberSoundData];
+        float** bank3Data = [bank3 getNumberSoundData];
+        float** bank2Data = [bank2 getNumberSoundData];
+        float** bank1Data = [bank1 getNumberSoundData];
+        
+        for (int i = 0; i<nFrames; i++) {
+            sum[i] = bank6Data[0][i]+bank5Data[0][i]+bank4Data[0][i]+bank3Data[0][i]+bank2Data[0][i]+bank1Data[0][i];
+        }
+        [waveformSum setSamplesCount:nFrames];
+        [waveformSum setData:sum];
+        
+        
+        NSError *error;
+        _musicPlayer = [[AVAudioPlayer alloc]
+                        initWithContentsOfURL:_originalFile error:&error];
+        [_musicPlayer prepareToPlay];
+        [_musicPlayer play];
+        [_musicPlayer setNumberOfLoops:-1];
+        
+        NSTimer * myTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
+                                                             target:self
+                                                           selector:@selector(updateTimer)
+                                                           userInfo:nil
+                                                            repeats:YES];
+    }
+}
+
+- (void)updateTimer {
+    float progress =  _musicPlayer.currentTime/_musicPlayer.duration;
+    waveform1.progress =  progress;
+    waveform2.progress =  progress;
+    waveform3.progress =  progress;
+    waveform4.progress =  progress;
+    waveform5.progress =  progress;
+    waveform6.progress =  progress;
+    waveformSum.progress =  progress;
 }
 
 - (BOOL)prefersStatusBarHidden {

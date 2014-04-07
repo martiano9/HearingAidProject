@@ -53,8 +53,10 @@
 		D7265C0418D089540081CDEC /* RBJ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF318D089540081CDEC /* RBJ.cpp */; };
 		D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF418D089540081CDEC /* RootFinder.cpp */; };
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
+		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
 		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
 		D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D7BD126618D97C0600C66D31 /* 04.m4a */; };
+		D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E1555A18E2C9DE00CE555E /* 02.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,9 +156,12 @@
 		D7265BF318D089540081CDEC /* RBJ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RBJ.cpp; sourceTree = "<group>"; };
 		D7265BF418D089540081CDEC /* RootFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RootFinder.cpp; sourceTree = "<group>"; };
 		D7265BF518D089540081CDEC /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
+		D73DF0C118F24F04005EB151 /* AMDataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataPlot.h; sourceTree = "<group>"; };
+		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
 		D7BD126318D97B6700C66D31 /* FilterBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterBank.h; sourceTree = "<group>"; };
 		D7BD126418D97B6700C66D31 /* FilterBank.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterBank.mm; sourceTree = "<group>"; };
 		D7BD126618D97C0600C66D31 /* 04.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04.m4a; sourceTree = "<group>"; };
+		D7E1555A18E2C9DE00CE555E /* 02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 02.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +245,7 @@
 		D7265B4D18D0046E0081CDEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D7E1555A18E2C9DE00CE555E /* 02.wav */,
 				D7BD126618D97C0600C66D31 /* 04.m4a */,
 				D7265BA418D012190081CDEC /* TLC.mp3 */,
 				D7265BA218D00E910081CDEC /* 01.wav */,
@@ -272,6 +278,7 @@
 		D7265B7E18D0088D0081CDEC /* References */ = {
 			isa = PBXGroup;
 			children = (
+				D73DF0C018F24E7F005EB151 /* AMDataPlot */,
 				D7265BCB18D089540081CDEC /* DSPFilters */,
 				D7265BC118D063D00081CDEC /* ExtAudioFile */,
 				D7265BAF18D0256F0081CDEC /* PublicUtility */,
@@ -393,6 +400,15 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		D73DF0C018F24E7F005EB151 /* AMDataPlot */ = {
+			isa = PBXGroup;
+			children = (
+				D73DF0C118F24F04005EB151 /* AMDataPlot.h */,
+				D73DF0C218F24F04005EB151 /* AMDataPlot.m */,
+			);
+			name = AMDataPlot;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -437,7 +453,7 @@
 		D7265B3B18D0046E0081CDEC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Hai Le";
 				TargetAttributes = {
 					D7265B6618D0046F0081CDEC = {
@@ -473,6 +489,7 @@
 				D7265BA518D012190081CDEC /* TLC.mp3 in Resources */,
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
+				D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */,
 				D7265BA318D00E910081CDEC /* 01.wav in Resources */,
 				D7265B5A18D0046E0081CDEC /* Main_iPhone.storyboard in Resources */,
 				D7265B5118D0046E0081CDEC /* InfoPlist.strings in Resources */,
@@ -522,6 +539,7 @@
 				D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */,
 				D7265BC618D063DD0081CDEC /* EAFRead.mm in Sources */,
 				D7265BFC18D089540081CDEC /* Custom.cpp in Sources */,
+				D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */,
 				D7265BBA18D0256F0081CDEC /* CAStreamBasicDescription.cpp in Sources */,
 				D7265BFE18D089540081CDEC /* Documentation.cpp in Sources */,
 			);
@@ -585,7 +603,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -625,7 +642,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -685,7 +701,6 @@
 		D7265B7C18D0046F0081CDEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HearingAid.app/HearingAid";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -708,7 +723,6 @@
 		D7265B7D18D0046F0081CDEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HearingAid.app/HearingAid";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

@@ -9,6 +9,7 @@
 #import "FilterBank.h"
 #import "EAFWrite.h"
 #import "FDWaveformView.h"
+#import "AMDataPlot.h"
 #import "EAFUtilities.h"
 
 @interface FilterBank (Private) <EAFWriterDelegate> {
@@ -30,13 +31,14 @@
         _numberOfChannels = channels;
         _originalData = data;
         
-        // Path for saved file
-        NSString *pathString = [NSString stringWithFormat:@"bank%d.aif",bankIndex];
-        NSArray *pathComponents = [NSArray arrayWithObjects:
-                                   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-                                   pathString,
-                                   nil];
-        _fileURL = [NSURL fileURLWithPathComponents:pathComponents];
+        _atomReducedTime = 8;
+//        // Path for saved file
+//        NSString *pathString = [NSString stringWithFormat:@"bank%d.aif",bankIndex];
+//        NSArray *pathComponents = [NSArray arrayWithObjects:
+//                                   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+//                                   pathString,
+//                                   nil];
+//        _fileURL = [NSURL fileURLWithPathComponents:pathComponents];
     
         // Switch by bankIndex
         if (bankIndex == 1 || bankIndex == 9) {
@@ -120,6 +122,9 @@
 }
 
 - (void)processToStep:(int)step {
+    // Assing number of step
+    _stepToProceed = step;
+    
     if (_filteredData) {
         for (int i=0; i<_numberOfChannels; i++)
             delete [] _filteredData[i];
@@ -129,7 +134,6 @@
     int frames16 = _frames/16;
     
     // Copy data from original data
-    
     float** buffer = AllocateAudioBuffer(_numberOfChannels, (int)_frames);
     
     _filteredData = AllocateAudioBuffer(_numberOfChannels, (int)_frames);
@@ -176,31 +180,28 @@
     // STEP 3:
     // ================================================================
     
-    for(int i = 0; i < _numberOfChannels; i++) {
-        memcpy(buffer[i], _filteredData[i], (size_t)_frames * sizeof(float));
-    }
-    
-    for (int channel = 0; channel<_numberOfChannels; channel++) {
-        float lowpassed = 0;
-        for (int frame = 1; frame<_frames; frame++) {
-                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
-                lowpassed = (diff * 0.1) + (lowpassed * (1.0 - 0.1));
-                _filteredData[channel][frame] = lowpassed;
-            
-            //NSLog(@"%f %f",absVal, lowpassed);
-        }
-    }
-    
-    // delete old data
-    if (buffer) {
-        for (int i=0; i<_numberOfChannels; i++)
-            delete [] buffer[i];
-        delete [] buffer;
-    }
-    
-    
-    _waveFormView.isMirror = NO;
-    if (step==3) goto writeFile;
+//    for(int i = 0; i < _numberOfChannels; i++) {
+//        memcpy(buffer[i], _filteredData[i], (size_t)_frames * sizeof(float));
+//    }
+//    
+//    for (int channel = 0; channel<_numberOfChannels; channel++) {
+//        
+//        for (int frame = 1; frame<_frames; frame++) {
+//                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
+//                _filteredData[channel][frame] = diff;
+//        }
+//    }
+//    
+//    // delete old data
+//    if (buffer) {
+//        for (int i=0; i<_numberOfChannels; i++)
+//            delete [] buffer[i];
+//        delete [] buffer;
+//    }
+//    
+//    
+//    _waveFormView.isMirror = NO;
+//    if (step==3) goto writeFile;
     
     // ================================================================
     // STEP 4:
@@ -224,12 +225,14 @@
     // ================================================================
     // STEP 5:
     // ================================================================
-    _atom = AllocateAudioBuffer(_numberOfChannels, (int)frames16/2);
+    _atom = AllocateAudioBuffer(_numberOfChannels, (int)frames16/_atomReducedTime);
     
     for (int channel = 0; channel<_numberOfChannels; channel++) {
-        for (int frame = 0; frame<frames16/2; frame++) {
-            for (int n = 0; n<(frames16/2)-frame ; n ++) {
-                _atom[channel][frame]= _atom[channel][frame]+(_filteredData16[channel][n]*_filteredData16[channel][n+frame]);
+        for (int m = 0; m<frames16/_atomReducedTime; m++) {
+            for (int n = 0; n<(frames16/_atomReducedTime)-m ; n++) {
+                _atom[channel][m] = _atom[channel][m]
+                                        + (_filteredData16[channel][n*4]
+                                        * _filteredData16[channel][(n+m)*4]);
             }
         }
     }
@@ -238,32 +241,38 @@
     if (step==5) goto writeAutomFile;
     
 writeFile:
-    [self writeToFile:_fileURL withData:_filteredData frames:_frames];
+    [_waveFormDataView setSamplesCount:_frames];
+    [_waveFormDataView setData:_filteredData[0]];
     return;
 writeFile16:
-    [self writeToFile:_fileURL withData:_filteredData16 frames:frames16];
+    [_waveFormDataView setSamplesCount:frames16];
+    [_waveFormDataView setData:_filteredData16[0]];
     return;
 writeAutomFile:
-    [self writeToFile:_fileURL withData:_atom frames:frames16/2];
-    NSLog(@"write");
+    [_waveFormDataView setSamplesCount:frames16/_atomReducedTime];
+    [_waveFormDataView setData:_atom[0]];
+    
     return;
     
 }
 
-- (void) writeToFile:(NSURL*) url withData:(float**)data frames:(long)frames {
-    EAFWrite* writer = [[EAFWrite alloc] init];
-    writer.delegate = self;
-    // Write filterd (2) data to file
-    [writer openFileForWrite:url sr:44100 channels:_numberOfChannels wordLength:16 type:kAudioFileAIFFType];
-    [writer writeFloats:frames fromArray:data];
+- (float)getNumberOfFrames {
+    if (_stepToProceed < 4) {
+        return _frames;
+    } else if (_stepToProceed == 4) {
+        return _frames/16;
+    } else {
+        return _frames/16/_atomReducedTime;
+    }
 }
-
-- (void)writerDidFinish:(BOOL)success {
-    // Wave form setup
-//    _waveFormView.alpha = 1.0f;
-//    _waveFormView.audioURL = _fileURL;
-//    _waveFormView.doesAllowScrubbing = YES;
-//    _waveFormView.doesAllowStretchAndScroll = YES;
+- (float **)getNumberSoundData {
+    if (_stepToProceed < 4) {
+        return _filteredData;
+    } else if (_stepToProceed == 4) {
+        return _filteredData16;
+    } else {
+        return _atom;
+    }
 }
 
 @end

@@ -315,7 +315,8 @@ AudioBufferList *AllocateAudioBufferList(UInt32 numChannels, UInt32 size)
 			short *buffer = (short*)abl->mBuffers[c].mData;
 			for (long v = 0; v < numFrames; v++) {
 				if (data[c][v] > 0.999)		data[c][v] = 0.999;
-				else if (data[c][v] < -1.)	data[c][v] = -1.;
+				else
+                    if (data[c][v] < -1.)	data[c][v] = -1.;
 				buffer[v] = (short)(data[c][v]*32768.f);
 			}
 		}
