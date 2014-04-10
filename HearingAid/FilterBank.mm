@@ -180,28 +180,28 @@
     // STEP 3:
     // ================================================================
     
-//    for(int i = 0; i < _numberOfChannels; i++) {
-//        memcpy(buffer[i], _filteredData[i], (size_t)_frames * sizeof(float));
-//    }
-//    
-//    for (int channel = 0; channel<_numberOfChannels; channel++) {
-//        
-//        for (int frame = 1; frame<_frames; frame++) {
-//                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
-//                _filteredData[channel][frame] = diff;
-//        }
-//    }
-//    
-//    // delete old data
-//    if (buffer) {
-//        for (int i=0; i<_numberOfChannels; i++)
-//            delete [] buffer[i];
-//        delete [] buffer;
-//    }
-//    
-//    
-//    _waveFormView.isMirror = NO;
-//    if (step==3) goto writeFile;
+    for(int i = 0; i < _numberOfChannels; i++) {
+        memcpy(buffer[i], _filteredData[i], (size_t)_frames * sizeof(float));
+    }
+    
+    for (int channel = 0; channel<_numberOfChannels; channel++) {
+        
+        for (int frame = 1; frame<_frames; frame++) {
+                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
+                _filteredData[channel][frame] = diff;
+        }
+    }
+    
+    // delete old data
+    if (buffer) {
+        for (int i=0; i<_numberOfChannels; i++)
+            delete [] buffer[i];
+        delete [] buffer;
+    }
+    
+    
+    _waveFormView.isMirror = NO;
+    if (step==3) goto writeFile;
     
     // ================================================================
     // STEP 4:

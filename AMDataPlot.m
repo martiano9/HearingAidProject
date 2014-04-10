@@ -7,25 +7,22 @@
 //
 
 #import "AMDataPlot.h"
+#import "AMNiceScale.h"
+#import "AMNiceGrid.h"
 
-#define absX(x) (x < 0 ? 0 - x : x)
-#define minMaxX(x, mn, mx) (x <= mn ? mn : (x >= mx ? mx : x))
-#define noiseFloor (-50.0)
-#define decibel(amplitude) (20.0 * log10(absX(amplitude) / 32767.0))
+int pixelsPerCell = 30.00;
+int smallGrids = 2;
 
-@interface AMDataPlot() {
-    UIImageView *_normalImageView;
-    UIImageView *_progressImageView;
-    UIView *_cropNormalView;
-    UIView *_cropProgressView;
-    BOOL _normalColorDirty;
-    BOOL _progressColorDirty;
-    double _maxAmplitude;
-}
+@interface AMDataPlot(Private)
+
+- (void)calculateGrid;
+- (void)calculateMaxAmplitude;
 
 @end
 
 @implementation AMDataPlot
+
+#pragma mark - Initialize
 
 - (instancetype)init {
     self = [super init];
@@ -40,7 +37,6 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    
     if (self) {
         [self commonInit];
     }
@@ -63,102 +59,18 @@
     
     [self addSubview:_cropNormalView];
     [self addSubview:_cropProgressView];
+
     
-    self.normalColor = [UIColor blueColor];
-    self.progressColor = [UIColor redColor];
+    self.normalColor = [UIColor greenColor];
+    self.progressColor = [UIColor lightGrayColor];
     
     _normalColorDirty = NO;
     _progressColorDirty = NO;
+    
+    _bPadding = 15.0f;
 }
 
-- (void) renderPixelWaveForm:(CGContextRef)context height:(float)halfGraphHeight sample:(double)sample x:(float) x {
-    float pixelHeight = halfGraphHeight * (sample/_maxAmplitude);
-    
-    if (pixelHeight < 0) {
-        pixelHeight = 0;
-    }
-    
-    CGContextMoveToPoint(context, x, halfGraphHeight - pixelHeight);
-    CGContextAddLineToPoint(context, x, halfGraphHeight);
-    CGContextStrokePath(context);
-    
-
-}
-
-- (void)renderWaveformInContext:(CGContextRef)context data:(float *)data withColor:(UIColor *)color andSize:(CGSize)size antialiasingEnabled:(BOOL)antialiasingEnabled
-{
-    if (data == nil) {
-        return;
-    }
-    
-    CGFloat pixelRatio = [UIScreen mainScreen].scale;
-    size.width *= pixelRatio;
-    size.height *= pixelRatio;
-    
-    CGFloat widthInPixels = size.width;
-    CGFloat heightInPixels = size.height;
-    
-    CGContextSetAllowsAntialiasing(context, antialiasingEnabled);
-    CGContextSetLineWidth(context, 1.0);
-    CGContextSetStrokeColorWithColor(context, color.CGColor);
-    CGContextSetFillColorWithColor(context, color.CGColor);
-
-    // TODO:
-    
-    NSUInteger samplesPerPixel = _samplesCount / (widthInPixels);
-    samplesPerPixel = samplesPerPixel < 1 ? 1 : samplesPerPixel;
-    
-    float halfGraphHeight = (heightInPixels );
-    double bigSample = 0;
-    NSUInteger bigSampleCount = 0;
-    
-    CGFloat currentX = 0;
-    _maxAmplitude = 0;
-    for (int i = 0; i < _samplesCount; i++) {
-        float sample = _data[i];
-        _maxAmplitude = MAX(_maxAmplitude, sample);
-    }
-    
-    for (int i = 0; i < _samplesCount; i++) {
-        float sample = (Float32) *_data++;
-        
-        bigSample += sample;
-        bigSampleCount++;
-        
-        if (bigSampleCount == samplesPerPixel) {
-            double averageSample = bigSample / (double)bigSampleCount;
-            
-            [self renderPixelWaveForm:context height:halfGraphHeight sample:averageSample x:currentX];
-            //SCRenderPixelWaveformInContext(context, halfGraphHeight, averageSample, currentX);
-            
-            currentX ++;
-            bigSample = 0;
-            bigSampleCount  = 0;
-        }
-    }
-    
-    // Rendering the last pixels
-    bigSample = bigSampleCount > 0 ? bigSample / (double)bigSampleCount : noiseFloor;
-    while (currentX < size.width) {
-        [self renderPixelWaveForm:context height:halfGraphHeight sample:bigSample x:currentX];
-        currentX++;
-    }
-    
-}
-
-- (UIImage*)generateWaveformImageFromFloat:(float *)data withColor:(UIColor *)color andSize:(CGSize)size antialiasingEnabled:(BOOL)antialiasingEnabled
-{
-    CGFloat ratio = [UIScreen mainScreen].scale;
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width * ratio, size.height * ratio), NO, 1);
-    
-    [self renderWaveformInContext:UIGraphicsGetCurrentContext() data:_data withColor:color andSize:size antialiasingEnabled:antialiasingEnabled];
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
+#pragma mark -
 
 + (UIImage*)recolorizeImage:(UIImage*)image withColor:(UIColor*)color
 {
@@ -179,16 +91,24 @@
     return newImage;
 }
 
+// ========================================================================
+// Draw
+// ========================================================================
+
+- (void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    [self generateWaveforms];
+}
+
 - (void)generateWaveforms
 {
-    CGRect rect = self.bounds;
-    
     if (self.generatedNormalImage == nil) {
         if (self.data) {
-            self.generatedNormalImage = [self generateWaveformImageFromFloat:_data withColor:self.normalColor andSize:CGSizeMake(rect.size.width, rect.size.height) antialiasingEnabled:self.antialiasingEnabled];
+            CGFloat ratio = [UIScreen mainScreen].scale;
+            self.generatedNormalImage = [self generateWaveformImageFromFloat:_data withColor:self.normalColor andSize:CGSizeMake(_niceWidth*ratio, _niceHeight*ratio) antialiasingEnabled:self.antialiasingEnabled];
             _normalColorDirty = NO;
         }
-        
     }
     
     if (self.generatedNormalImage != nil) {
@@ -205,26 +125,88 @@
     [self.delegate didFinishLoadData:YES];
 }
 
-- (void)drawRect:(CGRect)rect
+- (UIImage*)generateWaveformImageFromFloat:(float *)data withColor:(UIColor *)color andSize:(CGSize)size antialiasingEnabled:(BOOL)antialiasingEnabled
 {
-    [self generateWaveforms];
     
-    [super drawRect:rect];
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    [self renderWaveformInContext:context data:_data withColor:color andSize:size antialiasingEnabled:antialiasingEnabled];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
-- (void)applyProgressToSubviews
+- (void)renderWaveformInContext:(CGContextRef)context data:(float *)data withColor:(UIColor *)color andSize:(CGSize)size antialiasingEnabled:(BOOL)antialiasingEnabled
 {
-    CGRect bs = self.bounds;
-    CGFloat progressWidth = bs.size.width * _progress;
-    _cropProgressView.frame = CGRectMake(0, 0, progressWidth, bs.size.height);
-    _cropNormalView.frame = CGRectMake(progressWidth, 0, bs.size.width - progressWidth, bs.size.height);
-    _normalImageView.frame = CGRectMake(-progressWidth, 0, bs.size.width, bs.size.height);
+    if (data == nil) {
+        return;
+    }
+    CGContextSetAllowsAntialiasing(context, antialiasingEnabled);
+    CGContextSetShouldAntialias(context, antialiasingEnabled);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    
+    // TODO:
+    NSUInteger samplesPerPixel = _samplesCount / (size.width);
+    samplesPerPixel = samplesPerPixel < 1 ? 1 : samplesPerPixel;
+    
+    double bigSample = 0;
+    NSUInteger bigSampleCount = 0;
+    
+    CGFloat currentX = 0;
+    
+    for (int i = 0; i < _samplesCount; i++) {
+        float sample = (Float32) *_data++;
+        
+        bigSample += sample;
+        bigSampleCount++;
+        
+        if (bigSampleCount == samplesPerPixel) {
+            double averageSample = bigSample / (double)bigSampleCount;
+            
+            [self renderPixelWaveForm:context height:size.height sample:averageSample x:currentX];
+            currentX ++;
+            bigSample = 0;
+            bigSampleCount  = 0;
+        }
+    }
+    
+    // Rendering the last pixels
+    ///bigSample = bigSampleCount > 0 ? bigSample / (double)bigSampleCount : 0;
+    while (currentX < size.width) {
+        [self renderPixelWaveForm:context height:_niceHeight sample:0 x:currentX];
+        currentX++;
+    }
 }
+
+- (void) renderPixelWaveForm:(CGContextRef)context height:(float)halfGraphHeight sample:(double)sample x:(float) x {
+    float pixelHeight = halfGraphHeight * (sample/_vScale.niceMax);
+    
+    if (pixelHeight < 0) {
+        pixelHeight = 0;
+    }
+    
+    CGContextMoveToPoint(context, x, halfGraphHeight - pixelHeight);
+    CGContextAddLineToPoint(context, x, halfGraphHeight);
+    CGContextStrokePath(context);
+}
+
+// ========================================================================
+// Layout Subviews
+// ========================================================================
 
 - (void)layoutSubviews {
+    
     [super layoutSubviews];
     
     CGRect bs = self.bounds;
+    bs.size.height = _niceHeight;
+    bs.size.width = _niceWidth;
     _normalImageView.frame = bs;
     _progressImageView.frame = bs;
     
@@ -234,6 +216,37 @@
         self.generatedProgressImage = nil;
     }
     
+    [self applyProgressToSubviews];
+}
+
+- (void)applyProgressToSubviews
+{
+    CGFloat progressWidth = _niceWidth * _progress;
+    _cropProgressView.frame = CGRectMake(0, 0, progressWidth, _niceHeight);
+    _cropNormalView.frame = CGRectMake(progressWidth, 0, _niceWidth-progressWidth, _niceHeight);
+    _normalImageView.frame = CGRectMake(-progressWidth, 0, _niceWidth, _niceHeight);
+}
+
+#pragma mark - Public Category
+
+- (void)setData:(float *)data {
+    _data = data;
+    
+    // calculate MaxAmplitude
+    [self calculateMaxAmplitude];
+    
+    // calculate Grid
+    [self calculateGrid];
+    
+    self.generatedProgressImage = nil;
+    self.generatedNormalImage = nil;
+    
+    [self setNeedsDisplay];
+}
+
+- (void)setProgress:(CGFloat)progress
+{
+    _progress = progress;
     [self applyProgressToSubviews];
 }
 
@@ -251,17 +264,14 @@
     [self setNeedsDisplay];
 }
 
-- (void)setData:(float *)data {
-    _data = data;
-    self.generatedProgressImage = nil;
-    self.generatedNormalImage = nil;
-    [self setNeedsDisplay];
-}
-
-- (void)setProgress:(CGFloat)progress
+- (void)setAntialiasingEnabled:(BOOL)antialiasingEnabled
 {
-    _progress = progress;
-    [self applyProgressToSubviews];
+    if (_antialiasingEnabled != antialiasingEnabled) {
+        _antialiasingEnabled = antialiasingEnabled;
+        self.generatedProgressImage = nil;
+        self.generatedNormalImage = nil;
+        [self setNeedsDisplay];
+    }
 }
 
 - (UIImage*)generatedNormalImage
@@ -284,14 +294,30 @@
     _progressImageView.image = generatedProgressImage;
 }
 
-- (void)setAntialiasingEnabled:(BOOL)antialiasingEnabled
-{
-    if (_antialiasingEnabled != antialiasingEnabled) {
-        _antialiasingEnabled = antialiasingEnabled;
-        self.generatedProgressImage = nil;
-        self.generatedNormalImage = nil;
-        [self setNeedsDisplay];
-    }
+#pragma mark - Private Category
+
+- (void)calculateGrid {
+    _vScale = [[AMNiceScale alloc] initWithMin:0.0 andMax:_maxAmplitude];
+    _hScale = [[AMNiceScale alloc] initWithMin:0.0 andMax:_duration];
+   
+	CGFloat fullHeight  = self.bounds.size.height;
+	CGFloat fullWidth   = self.bounds.size.width;
+    
+    int numberOfHorizontalGrid = _hScale.niceRange/_hScale.tickSpacing * smallGrids;
+    _niceWidth = (int)(fullWidth / numberOfHorizontalGrid) * numberOfHorizontalGrid;
+
+    _niceHeight = fullHeight - _bPadding;
+    
+    AMNiceGrid *grid = [[AMNiceGrid alloc] initWithFrame:self.bounds hScale:_hScale vScale:_vScale bPadding:_bPadding];
+    [self addSubview:grid];
+    [self sendSubviewToBack:grid];
 }
 
+- (void)calculateMaxAmplitude {
+    _maxAmplitude = 0;
+    for (int i = 0; i < _samplesCount; i++) {
+        float sample = _data[i];
+        _maxAmplitude = MAX(_maxAmplitude, sample);
+    }
+}
 @end

@@ -10,10 +10,27 @@
 #import <AVFoundation/AVFoundation.h>
 
 @protocol AMDataPlotDelegate;
+@class AMNiceScale;
 
-@interface AMDataPlot : UIView
+@interface AMDataPlot : UIView {
+    UIImageView *_normalImageView;
+    UIImageView *_progressImageView;
+    UIView *_cropNormalView;
+    UIView *_cropProgressView;
+    BOOL _normalColorDirty;
+    BOOL _progressColorDirty;
+    float _maxAmplitude;
+    AMNiceScale *_vScale;
+    AMNiceScale *_hScale;
+    
+    int _niceWidth;
+    int _niceHeight;
+    
+    float _bPadding;
+}
 
 @property (nonatomic)                    float   *data;
+@property (nonatomic)                    float   duration;
 @property (nonatomic)                    int samplesCount;
 @property (strong, readwrite, nonatomic) UIColor *normalColor;
 @property (strong, readwrite, nonatomic) UIColor *progressColor;

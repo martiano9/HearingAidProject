@@ -54,6 +54,8 @@
 		D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF418D089540081CDEC /* RootFinder.cpp */; };
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
 		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
+		D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */; };
+		D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */; };
 		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
 		D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D7BD126618D97C0600C66D31 /* 04.m4a */; };
 		D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E1555A18E2C9DE00CE555E /* 02.wav */; };
@@ -158,6 +160,10 @@
 		D7265BF518D089540081CDEC /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
 		D73DF0C118F24F04005EB151 /* AMDataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataPlot.h; sourceTree = "<group>"; };
 		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
+		D7ABC0B518F4FEC500F057D3 /* AMNiceScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceScale.h; sourceTree = "<group>"; };
+		D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMNiceScale.m; sourceTree = "<group>"; };
+		D7ABC0B818F5200F00F057D3 /* AMNiceGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceGrid.h; sourceTree = "<group>"; };
+		D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMNiceGrid.m; sourceTree = "<group>"; };
 		D7BD126318D97B6700C66D31 /* FilterBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterBank.h; sourceTree = "<group>"; };
 		D7BD126418D97B6700C66D31 /* FilterBank.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterBank.mm; sourceTree = "<group>"; };
 		D7BD126618D97C0600C66D31 /* 04.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04.m4a; sourceTree = "<group>"; };
@@ -405,6 +411,10 @@
 			children = (
 				D73DF0C118F24F04005EB151 /* AMDataPlot.h */,
 				D73DF0C218F24F04005EB151 /* AMDataPlot.m */,
+				D7ABC0B518F4FEC500F057D3 /* AMNiceScale.h */,
+				D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */,
+				D7ABC0B818F5200F00F057D3 /* AMNiceGrid.h */,
+				D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */,
 			);
 			name = AMDataPlot;
 			sourceTree = "<group>";
@@ -532,6 +542,7 @@
 				D7265BC018D046BA0081CDEC /* AMAudioFileWriter.m in Sources */,
 				D7265BCA18D082A50081CDEC /* EAFUtilities.mm in Sources */,
 				D7265C0218D089540081CDEC /* Param.cpp in Sources */,
+				D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */,
 				D7265BFA18D089540081CDEC /* ChebyshevI.cpp in Sources */,
 				D7265BAA18D023400081CDEC /* AMAudioFileReader.mm in Sources */,
 				D7265BFB18D089540081CDEC /* ChebyshevII.cpp in Sources */,
@@ -540,6 +551,7 @@
 				D7265BC618D063DD0081CDEC /* EAFRead.mm in Sources */,
 				D7265BFC18D089540081CDEC /* Custom.cpp in Sources */,
 				D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */,
+				D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */,
 				D7265BBA18D0256F0081CDEC /* CAStreamBasicDescription.cpp in Sources */,
 				D7265BFE18D089540081CDEC /* Documentation.cpp in Sources */,
 			);

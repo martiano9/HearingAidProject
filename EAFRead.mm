@@ -61,7 +61,7 @@
 		}
 		
 		MPMediaItem *audioItem = [[songQuery items] objectAtIndex:0];
-
+        
 		AVURLAsset *audioItemAsset = [AVURLAsset URLAssetWithURL:mFileUrl options:nil];
 		
 		mTotalNumFramesInFile = [[audioItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue] * mPlaybackSampleRate;

@@ -34,19 +34,7 @@
     self.scrollView.contentSize = self.contentView.bounds.size;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    //TODO: Change to desired step
-    // 1: Frequency filter
-    // 2: Envelop extractor
-    // 3: Diffirentiator
-    // 4: Half-wave rectification
-    int step = 5;
-    
+- (void)viewDidLoad {
     // Path for original file
     NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];
     _originalFile = [NSURL fileURLWithPath:inputSound];
@@ -56,6 +44,33 @@
     waveform.audioURL = _originalFile;
     waveform.doesAllowScrubbing = YES;
     waveform.doesAllowStretchAndScroll = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    //TODO: Change to desired step
+    // 1: Frequency filter
+    // 2: Envelop extractor
+    // 3: Diffirentiator
+    // 4: Half-wave rectification
+    int step = 5;
+    
+    // Init audio player
+    NSError *error;
+    _musicPlayer = [[AVAudioPlayer alloc]
+                    initWithContentsOfURL:_originalFile error:&error];
+    [_musicPlayer prepareToPlay];
+    [_musicPlayer setNumberOfLoops:-1];
+    
+    waveform1.duration = _musicPlayer.duration;
+    waveform2.duration = _musicPlayer.duration;
+    waveform3.duration = _musicPlayer.duration;
+    waveform4.duration = _musicPlayer.duration;
+    waveform5.duration = _musicPlayer.duration;
+    waveform6.duration = _musicPlayer.duration;
+    waveformSum.duration = _musicPlayer.duration;
     
     // Audio reader
 	EAFRead *reader = [[EAFRead alloc] init];
@@ -137,19 +152,13 @@
         [waveformSum setSamplesCount:nFrames];
         [waveformSum setData:sum];
         
-        
-        NSError *error;
-        _musicPlayer = [[AVAudioPlayer alloc]
-                        initWithContentsOfURL:_originalFile error:&error];
-        [_musicPlayer prepareToPlay];
         [_musicPlayer play];
-        [_musicPlayer setNumberOfLoops:-1];
         
-        NSTimer * myTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
-                                                             target:self
-                                                           selector:@selector(updateTimer)
-                                                           userInfo:nil
-                                                            repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:1/50.0f
+                                         target:self
+                                       selector:@selector(updateTimer)
+                                       userInfo:nil
+                                        repeats:YES];
     }
 }
 
