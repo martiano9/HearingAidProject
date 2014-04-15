@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     // Path for original file
-    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"03" ofType:@"wav"];
+    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"02" ofType:@"wav"];
     _originalFile = [NSURL fileURLWithPath:inputSound];
     
     // Wave form setup
@@ -145,12 +145,35 @@
         float** bank3Data = [bank3 getNumberSoundData];
         float** bank2Data = [bank2 getNumberSoundData];
         float** bank1Data = [bank1 getNumberSoundData];
+        NSMutableString *s1 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *s2 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *s3 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *s4 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *s5 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *s6 = [NSMutableString stringWithString:@"0"];
+        NSMutableString *ss = [NSMutableString stringWithString:@"0"];
         
         for (int i = 0; i<nFrames; i++) {
             sum[i] = bank6Data[0][i]+bank5Data[0][i]+bank4Data[0][i]+bank3Data[0][i]+bank2Data[0][i]+bank1Data[0][i];
+            
+            [s1 appendFormat:@",%.15f",bank1Data[0][i]];
+            [s2 appendFormat:@",%.15f",bank2Data[0][i]];
+            [s3 appendFormat:@",%.15f",bank3Data[0][i]];
+            [s4 appendFormat:@",%.15f",bank4Data[0][i]];
+            [s5 appendFormat:@",%.15f",bank5Data[0][i]];
+            [s6 appendFormat:@",%.15f",bank6Data[0][i]];
+            [ss appendFormat:@",%.15f",sum[i]];
         }
         [waveformSum setSamplesCount:nFrames];
         [waveformSum setData:sum];
+        
+        [self writeFileName:@"bank1.txt" fromString:s1];
+        [self writeFileName:@"bank2.txt" fromString:s2];
+        [self writeFileName:@"bank3.txt" fromString:s3];
+        [self writeFileName:@"bank4.txt" fromString:s4];
+        [self writeFileName:@"bank5.txt" fromString:s5];
+        [self writeFileName:@"bank6.txt" fromString:s6];
+        [self writeFileName:@"banks.txt" fromString:ss];
         
         [_musicPlayer play];
         
@@ -160,6 +183,15 @@
                                        userInfo:nil
                                         repeats:YES];
     }
+}
+
+- (void)writeFileName:(NSString*)name fromString:(NSMutableString*)str {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSString *filePath = [path stringByAppendingPathComponent:name];
+    [str writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"%@",filePath);
 }
 
 - (void)updateTimer {

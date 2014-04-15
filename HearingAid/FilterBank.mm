@@ -31,7 +31,7 @@
         _numberOfChannels = channels;
         _originalData = data;
         
-        _atomReducedTime = 1;
+        _atomReducedTime = 4;
 //        // Path for saved file
 //        NSString *pathString = [NSString stringWithFormat:@"bank%d.aif",bankIndex];
 //        NSArray *pathComponents = [NSArray arrayWithObjects:
