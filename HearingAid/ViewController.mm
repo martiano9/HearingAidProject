@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     // Path for original file
-    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];
+    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"03" ofType:@"wav"];
     _originalFile = [NSURL fileURLWithPath:inputSound];
     
     // Wave form setup

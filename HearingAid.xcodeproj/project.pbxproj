@@ -54,6 +54,7 @@
 		D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF418D089540081CDEC /* RootFinder.cpp */; };
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
 		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
+		D7979D9718FD128700648BE1 /* 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7979D9618FD128700648BE1 /* 03.wav */; };
 		D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */; };
 		D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */; };
 		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
@@ -160,6 +161,7 @@
 		D7265BF518D089540081CDEC /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
 		D73DF0C118F24F04005EB151 /* AMDataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataPlot.h; sourceTree = "<group>"; };
 		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
+		D7979D9618FD128700648BE1 /* 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 03.wav; sourceTree = "<group>"; };
 		D7ABC0B518F4FEC500F057D3 /* AMNiceScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceScale.h; sourceTree = "<group>"; };
 		D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMNiceScale.m; sourceTree = "<group>"; };
 		D7ABC0B818F5200F00F057D3 /* AMNiceGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceGrid.h; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 		D7265B4D18D0046E0081CDEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D7979D9618FD128700648BE1 /* 03.wav */,
 				D7E1555A18E2C9DE00CE555E /* 02.wav */,
 				D7BD126618D97C0600C66D31 /* 04.m4a */,
 				D7265BA418D012190081CDEC /* TLC.mp3 */,
@@ -500,6 +503,7 @@
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
 				D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */,
+				D7979D9718FD128700648BE1 /* 03.wav in Resources */,
 				D7265BA318D00E910081CDEC /* 01.wav in Resources */,
 				D7265B5A18D0046E0081CDEC /* Main_iPhone.storyboard in Resources */,
 				D7265B5118D0046E0081CDEC /* InfoPlist.strings in Resources */,

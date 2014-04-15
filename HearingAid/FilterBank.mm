@@ -31,7 +31,7 @@
         _numberOfChannels = channels;
         _originalData = data;
         
-        _atomReducedTime = 8;
+        _atomReducedTime = 1;
 //        // Path for saved file
 //        NSString *pathString = [NSString stringWithFormat:@"bank%d.aif",bankIndex];
 //        NSArray *pathComponents = [NSArray arrayWithObjects:
@@ -230,9 +230,10 @@
     for (int channel = 0; channel<_numberOfChannels; channel++) {
         for (int m = 0; m<frames16/_atomReducedTime; m++) {
             for (int n = 0; n<(frames16/_atomReducedTime)-m ; n++) {
+                int x = _atomReducedTime;
                 _atom[channel][m] = _atom[channel][m]
-                                        + (_filteredData16[channel][n*4]
-                                        * _filteredData16[channel][(n+m)*4]);
+                                        + (_filteredData16[channel][n*x]
+                                        * _filteredData16[channel][(n+m)*x]);
             }
         }
     }
