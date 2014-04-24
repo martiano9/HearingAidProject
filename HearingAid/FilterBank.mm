@@ -129,6 +129,21 @@
         for (int i=0; i<_numberOfChannels; i++)
             delete [] _filteredData[i];
         delete [] _filteredData;
+        _filteredData = nil;
+    }
+    
+    if (_filteredData16) {
+        for (int i=0; i<_numberOfChannels; i++)
+            delete [] _filteredData16[i];
+        delete [] _filteredData16;
+        _filteredData16 = nil;
+    }
+    
+    if (_atom) {
+        for (int i=0; i<_numberOfChannels; i++)
+            delete [] _atom[i];
+        delete [] _atom;
+        _atom = nil;
     }
     
     int frames16 = _frames/16;
@@ -158,22 +173,8 @@
             //NSLog(@"%f %f",absVal, lowpassed);
         }
     }
-
     
-    delete _filter;
-    if (_numberOfChannels == 1)
-        _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 1> (1024);
-    else
-        _filter = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 2> (1024);
-    
-    Dsp::Params params;
-    params[0] = 44100;  // sample rate
-    params[1] = 6;      // order
-    params[2] = 10;    // cutoff frequency
-    _filter->setParams (params);
-    _filter->process(_frames, _filteredData);
-    
-        _waveFormView.isMirror = NO;
+    _waveFormView.isMirror = NO;
     if (step==2) goto writeFile;
     
     // ================================================================
@@ -199,7 +200,6 @@
         delete [] buffer;
     }
     
-    
     _waveFormView.isMirror = NO;
     if (step==3) goto writeFile;
     
@@ -219,6 +219,7 @@
             delete [] _filteredData[i];
         delete [] _filteredData;
     }
+    _filteredData = nil;
     
     if (step==4) goto writeFile16;
     
@@ -244,15 +245,17 @@
 writeFile:
     [_waveFormDataView setSamplesCount:_frames];
     [_waveFormDataView setData:_filteredData[0]];
+    [self.delegate didFinishCalculateData];
     return;
 writeFile16:
     [_waveFormDataView setSamplesCount:frames16];
     [_waveFormDataView setData:_filteredData16[0]];
+    [self.delegate didFinishCalculateData];
     return;
 writeAutomFile:
     [_waveFormDataView setSamplesCount:frames16/_atomReducedTime];
     [_waveFormDataView setData:_atom[0]];
-    
+    [self.delegate didFinishCalculateData];
     return;
     
 }

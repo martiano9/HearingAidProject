@@ -16,10 +16,11 @@
 #import "Dsp.h"
 #import "FilterBank.h"
 #import "AMDataPlot.h"
+#import "SVProgressHUD.h"
 
 #define COUNTOF(x) (sizeof(x)/sizeof(*x))
 
-@interface ViewController () <EAFWriterDelegate, AMDataPlotDelegate> {
+@interface ViewController () <EAFWriterDelegate, AMDataPlotDelegate, FilterBankDelegate> {
     AVAudioPlayer* _musicPlayer;
     int _finishedCount;
 }
@@ -44,6 +45,9 @@
     waveform.audioURL = _originalFile;
     waveform.doesAllowScrubbing = YES;
     waveform.doesAllowStretchAndScroll = YES;
+    
+    _stepNames = @[@"Frequency filter", @"Envelop extractor",
+                   @"Diffirentiator", @"Half-wave rectification", @"Autocorrelation"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -55,7 +59,8 @@
     // 2: Envelop extractor
     // 3: Diffirentiator
     // 4: Half-wave rectification
-    int step = 5;
+    _step = 1;
+    //int step = _step;
     
     // Init audio player
     NSError *error;
@@ -64,77 +69,73 @@
     [_musicPlayer prepareToPlay];
     [_musicPlayer setNumberOfLoops:-1];
     
-    waveform1.duration = _musicPlayer.duration;
-    waveform2.duration = _musicPlayer.duration;
-    waveform3.duration = _musicPlayer.duration;
-    waveform4.duration = _musicPlayer.duration;
-    waveform5.duration = _musicPlayer.duration;
-    waveform6.duration = _musicPlayer.duration;
-    waveformSum.duration = _musicPlayer.duration;
-    
     // Audio reader
 	EAFRead *reader = [[EAFRead alloc] init];
     [reader openFileForRead:_originalFile];
     
     // Allocate original data
-    _originalData = AllocateAudioBuffer(2, (int)reader.fileNumFrames);
-    [reader readFloatsConsecutive:reader.fileNumFrames intoArray:_originalData];
     
-    //
     float frames = reader.fileNumFrames;
+
     UInt32 channels = reader.numberOfChannels;
+    
+    _originalData = AllocateAudioBuffer(2, (int)reader.fileNumFrames);
+    [reader readFloatsConsecutive:frames intoArray:_originalData];
+    [reader readFloatsConsecutive:frames intoArray:_originalData withOffset:20];
+    
     
     //
     // Init filter bank1
     //
     bank1 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:1 Data:_originalData];
-    waveform1.delegate = self;
+    bank1.delegate = self;
     bank1.waveFormDataView = waveform1;
-    [bank1 processToStep:step];
+    //[bank1 processToStep:step];
     
     //
     // Init filter bank2
     //
     bank2 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:2 Data:_originalData];
-    waveform2.delegate = self;
+    bank2.delegate = self;
     bank2.waveFormDataView = waveform2;
-    [bank2 processToStep:step];
+    //[bank2 processToStep:step];
     
     //
     // Init filter bank3
     //
     bank3 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:3 Data:_originalData];
-    waveform3.delegate = self;
+    bank3.delegate = self;
     bank3.waveFormDataView = waveform3;
-    [bank3 processToStep:step];
+    //[bank3 processToStep:step];
     
     //
     // Init filter bank4
     //
     bank4 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:4 Data:_originalData];
-    waveform4.delegate = self;
+    bank4.delegate = self;
     bank4.waveFormDataView = waveform4;
-    [bank4 processToStep:step];
+    //[bank4 processToStep:step];
     
     //
     // Init filter bank5
     //
     bank5 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:5 Data:_originalData];
-    waveform5.delegate = self;
+    bank5.delegate = self;
     bank5.waveFormDataView = waveform5;
-    [bank5 processToStep:step];
+    //[bank5 processToStep:step];
     
     //
     // Init filter bank6
     //
     bank6 = [[FilterBank alloc] initWithFrames:frames Channels:channels FilterType:6 Data:_originalData];
-    waveform6.delegate = self;
+    bank6.delegate = self;
     bank6.waveFormDataView = waveform6;
-    [bank6 processToStep:step];
+    //[bank6 processToStep:step];
 }
 
-- (void)didFinishLoadData:(BOOL)success {
+- (void)didFinishCalculateData {
     _finishedCount ++;
+   
     if (_finishedCount == 6) {
         int nFrames = [bank6 getNumberOfFrames];
         float* sum = new float[nFrames];
@@ -175,13 +176,18 @@
         [self writeFileName:@"bank6.txt" fromString:s6];
         [self writeFileName:@"banks.txt" fromString:ss];
         
-        [_musicPlayer play];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD showSuccessWithStatus:@"Export Successfully"];
+        });
         
-        [NSTimer scheduledTimerWithTimeInterval:1/50.0f
-                                         target:self
-                                       selector:@selector(updateTimer)
-                                       userInfo:nil
-                                        repeats:YES];
+//        
+//        [_musicPlayer play];
+//        
+//        [NSTimer scheduledTimerWithTimeInterval:1/50.0f
+//                                         target:self
+//                                       selector:@selector(updateTimer)
+//                                       userInfo:nil
+//                                        repeats:YES];
     }
 }
 
@@ -207,6 +213,61 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+#pragma mark - PickerView DataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _stepNames.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return _stepNames[row];
+}
+
+#pragma mark - PickerView Delegate
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
+      inComponent:(NSInteger)component
+{
+    _step = (int)row + 1;
+}
+
+#pragma mark - Actions
+- (IBAction)exportClicked:(id)sender {
+    _finishedCount = 0;
+    [SVProgressHUD showWithStatus:@"Exporting" maskType:SVProgressHUDMaskTypeBlack];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [bank1 processToStep:_step];
+        [bank2 processToStep:_step];
+        [bank3 processToStep:_step];
+        [bank4 processToStep:_step];
+        [bank5 processToStep:_step];
+        [bank6 processToStep:_step];
+    });
+    
+}
+
+#pragma mark -
+#pragma mark Dismiss Methods Sample
+
+- (void)dismiss {
+	[SVProgressHUD dismiss];
+}
+
+- (void)dismissSuccess {
+	
+}
+
+- (void)dismissError {
+	[SVProgressHUD showErrorWithStatus:@"Failed with Error"];
 }
 
 @end

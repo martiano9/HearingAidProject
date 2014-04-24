@@ -12,6 +12,7 @@
 
 @class FDWaveformView;
 @class AMDataPlot;
+@protocol FilterBankDelegate;
 
 @interface FilterBank : NSObject {
     Dsp::Filter *_filter;
@@ -30,6 +31,7 @@
 @property (nonatomic) float frames;
 @property (nonatomic, weak) FDWaveformView* waveFormView;
 @property (nonatomic, weak) AMDataPlot* waveFormDataView;
+@property (nonatomic, weak) id<FilterBankDelegate> delegate;
 
 
 - (id)initWithFrames:(float)frames Channels:(UInt32)channels FilterType:(int)bankIndex Data:(float**)data;
@@ -37,4 +39,9 @@
 - (float)getNumberOfFrames;
 - (float**)getNumberSoundData;
 
+@end
+
+@protocol FilterBankDelegate <NSObject>
+@optional
+- (void)didFinishCalculateData;
 @end

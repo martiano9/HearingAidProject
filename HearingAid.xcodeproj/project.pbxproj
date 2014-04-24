@@ -54,7 +54,10 @@
 		D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF418D089540081CDEC /* RootFinder.cpp */; };
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
 		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
-		D7979D9718FD128700648BE1 /* 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7979D9618FD128700648BE1 /* 03.wav */; };
+		D77F12941908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m in Sources */ = {isa = PBXBuildFile; fileRef = D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */; };
+		D7979D9918FD211B00648BE1 /* 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7979D9818FD211B00648BE1 /* 03.wav */; };
+		D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */; };
+		D7A97D5A1908DA8A00A0804D /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A97D581908DA8A00A0804D /* SVProgressHUD.m */; };
 		D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */; };
 		D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */; };
 		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
@@ -161,7 +164,12 @@
 		D7265BF518D089540081CDEC /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
 		D73DF0C118F24F04005EB151 /* AMDataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataPlot.h; sourceTree = "<group>"; };
 		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
-		D7979D9618FD128700648BE1 /* 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 03.wav; sourceTree = "<group>"; };
+		D77F12921908C36500E4FEA1 /* NSMutableArray+MultiDimensional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+MultiDimensional.h"; sourceTree = "<group>"; };
+		D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+MultiDimensional.m"; sourceTree = "<group>"; };
+		D7979D9818FD211B00648BE1 /* 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 03.wav; sourceTree = "<group>"; };
+		D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		D7A97D571908DA8A00A0804D /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		D7A97D581908DA8A00A0804D /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		D7ABC0B518F4FEC500F057D3 /* AMNiceScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceScale.h; sourceTree = "<group>"; };
 		D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMNiceScale.m; sourceTree = "<group>"; };
 		D7ABC0B818F5200F00F057D3 /* AMNiceGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMNiceGrid.h; sourceTree = "<group>"; };
@@ -253,7 +261,7 @@
 		D7265B4D18D0046E0081CDEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D7979D9618FD128700648BE1 /* 03.wav */,
+				D7979D9818FD211B00648BE1 /* 03.wav */,
 				D7E1555A18E2C9DE00CE555E /* 02.wav */,
 				D7BD126618D97C0600C66D31 /* 04.m4a */,
 				D7265BA418D012190081CDEC /* TLC.mp3 */,
@@ -287,6 +295,8 @@
 		D7265B7E18D0088D0081CDEC /* References */ = {
 			isa = PBXGroup;
 			children = (
+				D7A97D541908DA8A00A0804D /* SVProgressHUD */,
+				D77F12911908C31B00E4FEA1 /* Categories */,
 				D73DF0C018F24E7F005EB151 /* AMDataPlot */,
 				D7265BCB18D089540081CDEC /* DSPFilters */,
 				D7265BC118D063D00081CDEC /* ExtAudioFile */,
@@ -422,6 +432,25 @@
 			name = AMDataPlot;
 			sourceTree = "<group>";
 		};
+		D77F12911908C31B00E4FEA1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				D77F12921908C36500E4FEA1 /* NSMutableArray+MultiDimensional.h */,
+				D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		D7A97D541908DA8A00A0804D /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */,
+				D7A97D571908DA8A00A0804D /* SVProgressHUD.h */,
+				D7A97D581908DA8A00A0804D /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -503,7 +532,8 @@
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
 				D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */,
-				D7979D9718FD128700648BE1 /* 03.wav in Resources */,
+				D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */,
+				D7979D9918FD211B00648BE1 /* 03.wav in Resources */,
 				D7265BA318D00E910081CDEC /* 01.wav in Resources */,
 				D7265B5A18D0046E0081CDEC /* Main_iPhone.storyboard in Resources */,
 				D7265B5118D0046E0081CDEC /* InfoPlist.strings in Resources */,
@@ -542,10 +572,12 @@
 				D7265C0618D089540081CDEC /* State.cpp in Sources */,
 				D7265BBB18D0256F0081CDEC /* CAXException.cpp in Sources */,
 				D7265B8118D008B10081CDEC /* FDWaveformView.m in Sources */,
+				D7A97D5A1908DA8A00A0804D /* SVProgressHUD.m in Sources */,
 				D7265C0418D089540081CDEC /* RBJ.cpp in Sources */,
 				D7265BC018D046BA0081CDEC /* AMAudioFileWriter.m in Sources */,
 				D7265BCA18D082A50081CDEC /* EAFUtilities.mm in Sources */,
 				D7265C0218D089540081CDEC /* Param.cpp in Sources */,
+				D77F12941908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m in Sources */,
 				D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */,
 				D7265BFA18D089540081CDEC /* ChebyshevI.cpp in Sources */,
 				D7265BAA18D023400081CDEC /* AMAudioFileReader.mm in Sources */,

@@ -11,7 +11,7 @@
 @class AMDataPlot;
 @class FilterBank;
 
-@interface ViewController : UIViewController {
+@interface ViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
     IBOutlet FDWaveformView *waveform;
     IBOutlet AMDataPlot *waveform1;
     IBOutlet AMDataPlot *waveform2;
@@ -20,6 +20,7 @@
     IBOutlet AMDataPlot *waveform5;
     IBOutlet AMDataPlot *waveform6;
     IBOutlet AMDataPlot *waveformSum;
+    IBOutlet UIPickerView *picker;
     
     FilterBank *bank6;
     FilterBank *bank5;
@@ -31,9 +32,11 @@
     NSURL *_originalFile;
     
     float **_originalData;
+    int _step;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) NSArray *stepNames;
 
 @end
