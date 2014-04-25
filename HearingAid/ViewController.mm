@@ -157,13 +157,13 @@
         for (int i = 0; i<nFrames; i++) {
             sum[i] = bank6Data[0][i]+bank5Data[0][i]+bank4Data[0][i]+bank3Data[0][i]+bank2Data[0][i]+bank1Data[0][i];
             
-            [s1 appendFormat:@",%.15f",bank1Data[0][i]];
-            [s2 appendFormat:@",%.15f",bank2Data[0][i]];
-            [s3 appendFormat:@",%.15f",bank3Data[0][i]];
-            [s4 appendFormat:@",%.15f",bank4Data[0][i]];
-            [s5 appendFormat:@",%.15f",bank5Data[0][i]];
-            [s6 appendFormat:@",%.15f",bank6Data[0][i]];
-            [ss appendFormat:@",%.15f",sum[i]];
+            [s1 appendFormat:@"\n%.15f",bank1Data[0][i]];
+            [s2 appendFormat:@"\n%.15f",bank2Data[0][i]];
+            [s3 appendFormat:@"\n%.15f",bank3Data[0][i]];
+            [s4 appendFormat:@"\n%.15f",bank4Data[0][i]];
+            [s5 appendFormat:@"\n%.15f",bank5Data[0][i]];
+            [s6 appendFormat:@"\n%.15f",bank6Data[0][i]];
+            [ss appendFormat:@"\n%.15f",sum[i]];
         }
         [waveformSum setSamplesCount:nFrames];
         [waveformSum setData:sum];
