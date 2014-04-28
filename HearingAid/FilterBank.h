@@ -16,6 +16,7 @@
 
 @interface FilterBank : NSObject {
     Dsp::Filter *_filter;
+    Dsp::Filter *_filter1;
     float** _originalData;
     
     float** _filteredData;

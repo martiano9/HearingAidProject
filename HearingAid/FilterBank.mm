@@ -173,6 +173,20 @@
             //NSLog(@"%f %f",absVal, lowpassed);
         }
     }
+    if (!_filter1) {
+        if (_numberOfChannels == 1)
+            _filter1 = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 1> (1024);
+        else
+            _filter1 = new Dsp::SmoothedFilterDesign<Dsp::Butterworth::Design::LowPass<6>, 2> (1024);
+    }
+    
+    
+    Dsp::Params params;
+    params[0] = 44100;  // sample rate
+    params[1] = 6;      // order
+    params[2] = 10;    // cutoff frequency
+    _filter1->setParams (params);
+    _filter1->process(_frames, _filteredData);
     
     _waveFormView.isMirror = NO;
     if (step==2) goto writeFile;
