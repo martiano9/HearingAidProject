@@ -189,6 +189,71 @@ end:
     
 }
 
+- (OSStatus)openFileForRead:(NSURL*)fileURL fromTime:(float)start toTime:(float)end {
+    OSStatus err = noErr;
+    
+    mRpos = 0;
+	mReadFromAsset = NO;
+	mFileUrl = [fileURL copy];
+    
+    CMTime startTime = CMTimeMake(start, 44100);
+    CMTime duration = CMTimeMake(end - start, 44100);
+    
+#if (TARGET_OS_IPHONE)
+	// First we need to make sure if we're dealing with an item from the iPod library here
+	if([[mFileUrl scheme] isEqualToString:@"ipod-library"])
+	{
+		mPlaybackSampleRate     = 44100;
+		mExtAFSampleRate        = 44100;
+		mExtAFNumChannels       = 2;
+		mExtAFRateRatio         = 1;
+        
+		if ([self createReaderWithStartPosition:CMTimeRangeMake(startTime, duration)] != noErr)
+			return -1;
+	} else
+#endif
+	{
+        
+        UInt32 propSize;
+        
+		err = ExtAudioFileOpenURL((__bridge CFURLRef)mFileUrl, &mExtAFRef);
+        XThrowIfError(err, "Error in ExtAudioFileOpen");
+        
+        // Read file format
+        CAStreamBasicDescription fileFormat;
+        propSize = sizeof(fileFormat);
+        memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
+        
+        err = ExtAudioFileGetProperty(mExtAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
+        XThrowIfErr(err);
+        
+		
+		mPlaybackSampleRate     = fileFormat.mSampleRate;
+		mExtAFRateRatio         = mPlaybackSampleRate / fileFormat.mSampleRate;
+		mExtAFSampleRate        = fileFormat.mSampleRate;
+        mExtAFNumChannels       = fileFormat.mChannelsPerFrame;
+		
+		AudioStreamBasicDescription clientFormat;
+		propSize = sizeof(clientFormat);
+		memset(&clientFormat, 0, sizeof(AudioStreamBasicDescription));
+		clientFormat.mFormatID				= kAudioFormatLinearPCM;
+		clientFormat.mSampleRate			= mPlaybackSampleRate;
+		clientFormat.mFormatFlags           = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+		clientFormat.mChannelsPerFrame      = fileFormat.mChannelsPerFrame;
+		clientFormat.mBitsPerChannel        = sizeof(SInt16) * 8;
+		clientFormat.mFramesPerPacket       = 1;
+		clientFormat.mBytesPerFrame         = clientFormat.mBitsPerChannel * clientFormat.mChannelsPerFrame / 8;
+		clientFormat.mBytesPerPacket        = clientFormat.mFramesPerPacket * clientFormat.mBytesPerFrame;
+		clientFormat.mReserved              = 0;
+		
+		err = ExtAudioFileSetProperty(mExtAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
+		if (err) {NSLog(@"!!! Error in ExtAudioFileSetProperty, %d", (int)err); return err;}
+	}
+	return err;
+    
+}
+
+
 - (OSStatus) openFileForRead:(NSURL*)fileURL sr:(Float64)sampleRate channels:(int)numChannels
 {
 	OSStatus err = noErr;

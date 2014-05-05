@@ -32,6 +32,9 @@
     NSURL *_originalFile;
     
     float **_originalData;
+    float startTime;
+    float duration;
+    
     int _step;
 }
 

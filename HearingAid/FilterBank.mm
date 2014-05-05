@@ -202,7 +202,7 @@
     for (int channel = 0; channel<_numberOfChannels; channel++) {
         
         for (int frame = 1; frame<_frames; frame++) {
-                float diff = fabsf(buffer[channel][frame] - buffer[channel][frame-1]);
+                float diff = MAX(0,buffer[channel][frame] - buffer[channel][frame-1]);
                 _filteredData[channel][frame] = diff;
         }
     }
@@ -223,7 +223,7 @@
     _filteredData16 = AllocateAudioBuffer(_numberOfChannels, (int)frames16);
     for (int channel = 0; channel<_numberOfChannels; channel++) {
         for (int frame = 0; frame<frames16; frame++) {
-            _filteredData16[channel][frame] = MAX(0, _filteredData[channel][frame*16]);
+            _filteredData16[channel][frame] = _filteredData[channel][frame*16];
         }
     }
     _waveFormView.isMirror = NO;
@@ -241,15 +241,15 @@
     // STEP 5:
     // ================================================================
     _atom = AllocateAudioBuffer(_numberOfChannels, (int)frames16/_atomReducedTime);
-    
+    float sum;
     for (int channel = 0; channel<_numberOfChannels; channel++) {
+        int x = _atomReducedTime;
         for (int m = 0; m<frames16/_atomReducedTime; m++) {
+            sum = 0;
             for (int n = 0; n<(frames16/_atomReducedTime)-m ; n++) {
-                int x = _atomReducedTime;
-                _atom[channel][m] = _atom[channel][m]
-                                        + (_filteredData16[channel][n*x]
-                                        * _filteredData16[channel][(n+m)*x]);
+                sum += (_filteredData16[channel][n*x] * _filteredData16[channel][(n+m)*x]);
             }
+            _atom[channel][m] = sum;
         }
     }
     

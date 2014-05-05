@@ -36,9 +36,17 @@
 }
 
 - (void)viewDidLoad {
+    // ====================================================================================
+    //
     // Path for original file
     NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"02" ofType:@"wav"];
     _originalFile = [NSURL fileURLWithPath:inputSound];
+    
+    // Setting for time
+    startTime = 0.0;    // in seconds
+    duration = 5;       // in seconds
+    //
+    // ====================================================================================
     
     // Wave form setup
     waveform.alpha = 1.0f;
@@ -71,18 +79,17 @@
     
     // Audio reader
 	EAFRead *reader = [[EAFRead alloc] init];
+    //[reader openFileForRead:_originalFile];
     [reader openFileForRead:_originalFile];
-    
     // Allocate original data
     
-    float frames = reader.fileNumFrames;
-
+    float frames = reader.sampleRate * duration;
+    
     UInt32 channels = reader.numberOfChannels;
     
     _originalData = AllocateAudioBuffer(2, (int)reader.fileNumFrames);
-    [reader readFloatsConsecutive:frames intoArray:_originalData];
-    [reader readFloatsConsecutive:frames intoArray:_originalData withOffset:20];
-    
+    [reader readFloatsConsecutive:frames intoArray:_originalData
+                       withOffset:startTime*reader.sampleRate];
     
     //
     // Init filter bank1

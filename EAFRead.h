@@ -52,6 +52,7 @@
 
 - (OSStatus)openFileForRead:(NSURL*)fileURL sr:(Float64)sampleRate channels:(int)numChannels;
 - (OSStatus)openFileForRead:(NSURL*)fileURL;
+- (OSStatus)openFileForRead:(NSURL*)fileURL fromTime:(float)start toTime:(float)end;
 
 - (OSStatus) readFloatsConsecutive:(SInt64)numFrames intoArray:(float**)audio;
 - (OSStatus) readFloatsConsecutive:(SInt64)numFrames intoArray:(float**)audio withOffset:(long)offset;
