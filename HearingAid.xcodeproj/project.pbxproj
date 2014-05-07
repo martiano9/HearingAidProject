@@ -34,7 +34,6 @@
 		D7265BBD18D0398B0081CDEC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265BBC18D0398B0081CDEC /* Accelerate.framework */; };
 		D7265BC018D046BA0081CDEC /* AMAudioFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D7265BBF18D046BA0081CDEC /* AMAudioFileWriter.m */; };
 		D7265BC618D063DD0081CDEC /* EAFRead.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7265BC318D063DD0081CDEC /* EAFRead.mm */; };
-		D7265BC718D063DD0081CDEC /* EAFWrite.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7265BC518D063DD0081CDEC /* EAFWrite.mm */; };
 		D7265BCA18D082A50081CDEC /* EAFUtilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7265BC918D082A50081CDEC /* EAFUtilities.mm */; };
 		D7265BF618D089540081CDEC /* Bessel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BE518D089540081CDEC /* Bessel.cpp */; };
 		D7265BF718D089540081CDEC /* Biquad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BE618D089540081CDEC /* Biquad.cpp */; };
@@ -118,8 +117,6 @@
 		D7265BBF18D046BA0081CDEC /* AMAudioFileWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMAudioFileWriter.m; sourceTree = "<group>"; };
 		D7265BC218D063DD0081CDEC /* EAFRead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAFRead.h; sourceTree = "<group>"; };
 		D7265BC318D063DD0081CDEC /* EAFRead.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAFRead.mm; sourceTree = "<group>"; };
-		D7265BC418D063DD0081CDEC /* EAFWrite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAFWrite.h; sourceTree = "<group>"; };
-		D7265BC518D063DD0081CDEC /* EAFWrite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAFWrite.mm; sourceTree = "<group>"; };
 		D7265BC818D082A50081CDEC /* EAFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAFUtilities.h; sourceTree = "<group>"; };
 		D7265BC918D082A50081CDEC /* EAFUtilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAFUtilities.mm; sourceTree = "<group>"; };
 		D7265BCD18D089540081CDEC /* Bessel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bessel.h; sourceTree = "<group>"; };
@@ -350,8 +347,6 @@
 				D7265BC918D082A50081CDEC /* EAFUtilities.mm */,
 				D7265BC218D063DD0081CDEC /* EAFRead.h */,
 				D7265BC318D063DD0081CDEC /* EAFRead.mm */,
-				D7265BC418D063DD0081CDEC /* EAFWrite.h */,
-				D7265BC518D063DD0081CDEC /* EAFWrite.mm */,
 			);
 			name = ExtAudioFile;
 			sourceTree = "<group>";
@@ -559,7 +554,6 @@
 				D7265BFD18D089540081CDEC /* Design.cpp in Sources */,
 				D7265BB918D0256F0081CDEC /* CAComponentDescription.cpp in Sources */,
 				D7265C0018D089540081CDEC /* Filter.cpp in Sources */,
-				D7265BC718D063DD0081CDEC /* EAFWrite.mm in Sources */,
 				D7265B6018D0046E0081CDEC /* ViewController.mm in Sources */,
 				D7265BF818D089540081CDEC /* Butterworth.cpp in Sources */,
 				D7265C0518D089540081CDEC /* RootFinder.cpp in Sources */,

@@ -13,13 +13,6 @@
 
 @interface ViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
     IBOutlet FDWaveformView *waveform;
-    IBOutlet AMDataPlot *waveform1;
-    IBOutlet AMDataPlot *waveform2;
-    IBOutlet AMDataPlot *waveform3;
-    IBOutlet AMDataPlot *waveform4;
-    IBOutlet AMDataPlot *waveform5;
-    IBOutlet AMDataPlot *waveform6;
-    IBOutlet AMDataPlot *waveformSum;
     IBOutlet UIPickerView *picker;
     
     FilterBank *bank6;

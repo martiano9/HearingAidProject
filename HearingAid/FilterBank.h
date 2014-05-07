@@ -17,28 +17,26 @@
 @interface FilterBank : NSObject {
     Dsp::Filter *_filter;
     Dsp::Filter *_filter1;
-    float** _originalData;
+    float* _originalData;
     
-    float** _filteredData;
-    float** _filteredData16;
-    float** _atom;
+    float* _filteredData;
+    float* _filteredData16;
+    float* _atom;
+    
     NSURL* _fileURL;
     
-    float _atomReducedTime;
+    int _atomReducedTime;
     int _stepToProceed;
 }
 
-@property (nonatomic) UInt32 numberOfChannels;
-@property (nonatomic) float frames;
-@property (nonatomic, weak) FDWaveformView* waveFormView;
-@property (nonatomic, weak) AMDataPlot* waveFormDataView;
+@property (nonatomic) int frames;
 @property (nonatomic, weak) id<FilterBankDelegate> delegate;
 
 
-- (id)initWithFrames:(float)frames Channels:(UInt32)channels FilterType:(int)bankIndex Data:(float**)data;
+- (id)initWithFrames:(int)frames filterType:(int)bankIndex data:(float*)data;
 - (void)processToStep:(int)step;
 - (float)getNumberOfFrames;
-- (float**)getNumberSoundData;
+- (float*)getNumberSoundData;
 
 @end
 
