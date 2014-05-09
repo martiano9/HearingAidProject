@@ -43,7 +43,7 @@
     
     // Time
     startTime = 0.0;    // in seconds
-    duration = 5;       // in seconds
+    duration = 10;       // in seconds
     //
     // ====================================================================================
     
@@ -166,8 +166,14 @@
 
 - (void)computePeak:(float*)data frames:(int)frames {
     float * peaks = new float[frames];
+    float peakMax = 0.0;
     
     for (int m = 0; m<frames; m++) {
+        
+        if (peakMax < data[m]) {
+            peakMax = data[m];
+        }
+        
         float val = [self computeS1:m
                               array:data
                              lenght:frames
@@ -233,6 +239,26 @@
         }
     }
     [self writeFileName:@"peaks.txt" fromData:peaks frames:frames];
+    
+    // Compute mean of pulse array
+    float meanScore = 0.0;
+    int countPeak = 0;
+    for (int i = 0; i < frames; i++) {
+        if (peaks[i]>0) {
+            float score = fmodf(peakMax, data[i]);
+            meanScore += score;
+            countPeak ++;
+        }
+        if (countPeak == 9) {
+            break;
+        }
+    }
+    meanScore = meanScore * 0.1;
+    
+    
+    float pulseIndex = 1 - meanScore;
+    NSLog(@"Pulse Index: %.15f", pulseIndex);
+    
     delete[] peaks;
 }
 
