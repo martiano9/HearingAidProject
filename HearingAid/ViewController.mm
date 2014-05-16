@@ -241,22 +241,41 @@
     [self writeFileName:@"peaks.txt" fromData:peaks frames:frames];
     
     // Compute mean of pulse array
-    float meanScore = 0.0;
+    
+    //    peaks = peaks(banks); %apply peak picking
+    //    peaks_index=find(peaks > 0); %find peaks above 0
+    //    for i=1:length(peaks_index)
+    //        peaks_seconds(i) = peaks_index(i)/27563*10; %transfom peak sample time to seconds (10 seconds)
+    //    end
+    //    peaks_seconds=peaks_seconds';  %make peaks a column matrix-array
+    //    for i=2:length(peaks_seconds)
+    //        remainder(i) = mod(peaks_seconds(i+1), peaks_seconds(2));    %estimate the remainder after division of the second peak with the rest of them (seems that first peak is a bug)
+    //    end
+    //    mean_remainder=mean(remainder); %get the mean of the remainder of the peaks
+    //    pulse_index = 1-mean_remainder;   %define pulse index after subtraction with the mean remainder of the peak
+    
+    float meanRemainder = 0.0;
     int countPeak = 0;
+    float secondPeak;
     for (int i = 0; i < frames; i++) {
         if (peaks[i]>0) {
-            float score = fmodf(peakMax, data[i]);
-            meanScore += score;
             countPeak ++;
-        }
-        if (countPeak == 9) {
-            break;
+            
+            float peakInSecond = (float)i*10/27563;
+            
+            if (countPeak == 2) {
+                secondPeak = peakInSecond;
+            } else if (countPeak > 2) {
+                float remainder = fmodf(peakInSecond,secondPeak);
+                meanRemainder += remainder;
+            }
+            
         }
     }
-    meanScore = meanScore * 0.1;
+    meanRemainder = meanRemainder / (countPeak-1);
     
     
-    float pulseIndex = 1 - meanScore;
+    float pulseIndex = 1 - meanRemainder;
     NSLog(@"Pulse Index: %.15f", pulseIndex);
     
     delete[] peaks;
