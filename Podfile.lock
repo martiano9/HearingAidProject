@@ -1,0 +1,24 @@
+PODS:
+  - BButton (4.0.0)
+  - FrameAccessor (1.3.2)
+  - GraphKit (1.0.0):
+    - FrameAccessor (~> 1.3.2)
+    - MKFoundationKit/NSArray (~> 1.2.2)
+  - MKFoundationKit/NSArray (1.2.2)
+  - RMPickerViewController (1.1.1)
+
+DEPENDENCIES:
+  - BButton
+  - FrameAccessor (~> 1.3.2)
+  - GraphKit
+  - MKFoundationKit/NSArray (~> 1.2.2)
+  - RMPickerViewController
+
+SPEC CHECKSUMS:
+  BButton: 70943d1d264997b4171554d0685b80dc9b19774e
+  FrameAccessor: 1c383c4dc298925749fb2a6b9c05cd45be0d8857
+  GraphKit: 2899214b2cc6148b414dc3111ad92fc23ac2ca4c
+  MKFoundationKit: 7f203cb163a892826fa567842c441b1a13b4e70b
+  RMPickerViewController: bce7e26ab5944062c6bc30cb6fd2195f6a36a73b
+
+COCOAPODS: 0.32.1

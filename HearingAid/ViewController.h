@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+
 @class FDWaveformView;
-@class AMDataPlot;
+@class DataPlot;
 @class FilterBank;
 
-@interface ViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
-    IBOutlet FDWaveformView *waveform;
-    IBOutlet UIPickerView *picker;
+@interface ViewController : UIViewController {
+    IBOutlet DataPlot *lineGraph;
+    IBOutlet UISlider *slider;
     
     FilterBank *bank6;
     FilterBank *bank5;
@@ -31,8 +33,11 @@
     int _step;
 }
 
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UILabel *songNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *playButton;
+@property (strong, nonatomic) UIView* tracker;
+@property (strong, nonatomic) AVAudioPlayer* player;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
-@property (strong, nonatomic) NSArray *stepNames;
 
 @end

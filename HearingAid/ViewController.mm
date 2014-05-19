@@ -13,32 +13,44 @@
 #import "Dsp.h"
 #import "FilterBank.h"
 #import "SVProgressHUD.h"
+#import "DataPlot.h"
+#import <RMPickerViewController/RMPickerViewController.h>
+#import <GraphKit/UIColor+GraphKit.h>
 
 #define COUNTOF(x) (sizeof(x)/sizeof(*x))
 #define k 200
-#define h 1.4
+#define h 1.8
 
-@interface ViewController () <FilterBankDelegate> {
-    AVAudioPlayer* _musicPlayer;
+@interface ViewController () <FilterBankDelegate, RMPickerViewControllerDelegate> {
+    NSArray *songsName;
     int _finishedCount;
+    NSTimer *_timer;
+    BOOL _playing;
 }
 
 @end
 
 @implementation ViewController
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    [self.scrollView layoutIfNeeded];
-    self.scrollView.contentSize = self.contentView.bounds.size;
-}
+//
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    [self.scrollView layoutIfNeeded];
+//    self.scrollView.contentSize = self.contentView.bounds.size;
+//}
 
 - (void)viewDidLoad {
     // ====================================================================================
     //
     
     // Path for original file
-    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01" ofType:@"wav"];
+    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01 - Beats" ofType:@"wav"];
+    songsName = [NSArray arrayWithObjects: @"01 - Beats",
+                                           @"02 - Knowing me",
+                                           @"03 - Test 015",
+                                           @"04 - Test 017",
+                                           @"05 - Fort Minor",
+                                           @"06 - Dancing Queen",
+                                           @"07 - SOS", nil];
     _originalFile = [NSURL fileURLWithPath:inputSound];
     
     // Time
@@ -48,24 +60,29 @@
     // ====================================================================================
     
     // Wave form setup
-    waveform.alpha = 1.0f;
-    waveform.audioURL = _originalFile;
-    waveform.doesAllowScrubbing = YES;
-    waveform.doesAllowStretchAndScroll = YES;
+//    waveform.alpha = 1.0f;
+//    waveform.audioURL = _originalFile;
+//    waveform.doesAllowScrubbing = YES;
+//    waveform.doesAllowStretchAndScroll = YES;
+
+    self.view.backgroundColor = [UIColor gk_peterRiverColor];
     
-    _stepNames = @[@"Frequency filter",
-                   @"Envelop extractor",
-                   @"Diffirentiator",
-                   @"Half-wave rectification",
-                   @"Autocorrelation"];
+    self.tracker = [[UIView alloc] initWithFrame:CGRectMake(lineGraph.frame.origin.x, lineGraph.frame.origin.y, 1, 240)];
+    [self.tracker setBackgroundColor:[UIColor gk_alizarinColor]];
+    self.tracker.alpha = 0.5;
+    [self.view addSubview:self.tracker];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
+    [self _startAnalizing];
+}
+
+- (void)_startAnalizing {
     // Default value
-    _step = 1;
+    _step = 5;
     
     // Audio reader
 	EAFRead *reader = [[EAFRead alloc] init];
@@ -120,7 +137,7 @@
    
     if (_finishedCount == 6) {
         int nFrames = [bank6 getNumberOfFrames];
-        float* sum = new float[nFrames];
+        float *sum = new float[nFrames];
         
         float* bank6Data = [bank6 getNumberSoundData];
         float* bank5Data = [bank5 getNumberSoundData];
@@ -133,6 +150,8 @@
             sum[i] = bank6Data[i]+bank5Data[i]+bank4Data[i]+bank3Data[i]+bank2Data[i]+bank1Data[i];
         }
         
+        
+  
         [self writeFileName:@"bank1.txt" fromData:bank1Data frames:nFrames];
         [self writeFileName:@"bank2.txt" fromData:bank2Data frames:nFrames];
         [self writeFileName:@"bank3.txt" fromData:bank3Data frames:nFrames];
@@ -141,11 +160,13 @@
         [self writeFileName:@"bank6.txt" fromData:bank6Data frames:nFrames];
         [self writeFileName:@"banks.txt" fromData:sum frames:nFrames];
         
-        [self computePeak:sum frames:nFrames];
-        delete []sum;
+        float *peaks = [self computePeak:sum frames:nFrames];
+        [lineGraph setData:sum peaks:peaks frames:nFrames];
+        //delete []sum;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showSuccessWithStatus:@"Export Successfully"];
+            [SVProgressHUD showSuccessWithStatus:@"Finished Analyzing"];
+            [lineGraph draw];
         });
     }
 }
@@ -164,7 +185,7 @@
     [str writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
-- (void)computePeak:(float*)data frames:(int)frames {
+- (float*)computePeak:(float*)data frames:(int)frames {
     float * peaks = new float[frames];
     float peakMax = 0.0;
     
@@ -232,7 +253,7 @@
                 }
             }
             if (found == NO) {
-                i = i+window;
+                i = i+window-1;
             }
         } else {
             i++;
@@ -278,7 +299,7 @@
     float pulseIndex = 1 - meanRemainder;
     NSLog(@"Pulse Index: %.15f", pulseIndex);
     
-    delete[] peaks;
+    return peaks;
 }
 
 - (float)computeS1:(int)index array:(float*)array lenght:(int)frames windowSize:(float)windowSize {
@@ -310,34 +331,93 @@
     return YES;
 }
 
-#pragma mark - PickerView DataSource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return _stepNames.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return _stepNames[row];
-}
-
-#pragma mark - PickerView Delegate
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
-      inComponent:(NSInteger)component
-{
-    _step = (int)row + 1;
-}
-
 #pragma mark - Actions
+- (void)updateTime:(NSTimer *)timer {
+    Float64 dur = self.player.currentTime;
+    Float64 durInMiliSec = 1000*dur;
+    slider.value = durInMiliSec;
+    self.timeLabel.text = [NSString stringWithFormat:@"%.1f",dur];
+    CGRect rect = self.tracker.frame;
+    rect.origin.x = (dur/duration)*lineGraph.size.width;
+    [self.tracker setFrame:rect];
+    if (dur >= 10) {
+        [self.player pause];
+        [_timer invalidate];
+        _timer = nil;
+        [self.playButton setSelected:NO];
+        _playing = NO;
+        self.timeLabel.text = [NSString stringWithFormat:@"%.1f",0.0];
+        [self.player setCurrentTime:0];
+        slider.value = 0.0;
+    }
+}
+
 - (IBAction)exportClicked:(id)sender {
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+    }
+    
+    if (_playing) {
+        [self.player pause];
+        [self.playButton setSelected:NO];
+        _playing = NO;
+    } else {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTime:) userInfo:nil repeats:YES];
+        [self.player play];
+        [self.playButton setSelected:YES];
+        _playing = YES;
+        Float64 x  = slider.value/1000.0;
+        [self.player setCurrentTime:x];
+    }
+}
+
+- (IBAction)selectTapped:(id)sender {
+    RMPickerViewController *pickerVC = [RMPickerViewController pickerController];
+    pickerVC.delegate = self;
+    pickerVC.titleLabel.text = @"Select a song to analyze";
+    
+    //You can enable or disable bouncing and motion effects
+    //pickerVC.disableBouncingWhenShowing = YES;
+    //pickerVC.disableMotionEffects = YES;
+    
+    [pickerVC show];
+}
+
+- (IBAction)valueChanged:(id)sender {
+    if (_playing) {
+        [self.player pause];
+        [_timer invalidate];
+        _timer = nil;
+        [self.playButton setSelected:NO];
+        _playing = NO;
+    }
+    UISlider* xslider = sender;
+    self.timeLabel.text = [NSString stringWithFormat:@"%.1f",xslider.value/1000.0];
+    CGRect rect = self.tracker.frame;
+    rect.origin.x = (xslider.value/1000.0/duration)*lineGraph.size.width;
+    [self.tracker setFrame:rect];
+}
+
+#pragma mark - RMPickerViewController Delegates
+- (void)pickerViewController:(RMPickerViewController *)vc didSelectRows:(NSArray *)selectedRows
+{
+    NSInteger selectedIndex = [[selectedRows objectAtIndex:0] integerValue];
+    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:[songsName objectAtIndex:selectedIndex] ofType:@"wav"];
+    self.songNameLabel.text = [songsName objectAtIndex:selectedIndex];
+    _originalFile = [NSURL fileURLWithPath:inputSound];
+    
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:_originalFile error:nil];
+    [self.player prepareToPlay];
+    //[self.player seekToTime:CMTimeMake(0, startTime)];
+    slider.maximumValue = duration*1000;
+    slider.value = startTime;
+    _playing = NO;
+    
+    [self _startAnalizing];
+    
     _finishedCount = 0;
-    [SVProgressHUD showWithStatus:@"Exporting" maskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:@"Analyzing" maskType:SVProgressHUDMaskTypeBlack];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [bank1 processToStep:_step];
@@ -347,8 +427,24 @@
         [bank5 processToStep:_step];
         [bank6 processToStep:_step];
     });
-    
 }
+
+- (void)pickerViewControllerDidCancel:(RMPickerViewController *)vc {
+    NSLog(@"Selection was canceled");
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [songsName count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [songsName objectAtIndex:row];
+}
+
 
 #pragma mark -
 #pragma mark Dismiss Methods Sample

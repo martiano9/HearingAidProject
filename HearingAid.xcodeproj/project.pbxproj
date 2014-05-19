@@ -23,8 +23,7 @@
 		D7265B7318D0046F0081CDEC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7265B7118D0046F0081CDEC /* InfoPlist.strings */; };
 		D7265B7518D0046F0081CDEC /* HearingAidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D7265B7418D0046F0081CDEC /* HearingAidTests.m */; };
 		D7265B8118D008B10081CDEC /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7265B8018D008B10081CDEC /* FDWaveformView.m */; };
-		D7265BA318D00E910081CDEC /* 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7265BA218D00E910081CDEC /* 01.wav */; };
-		D7265BA518D012190081CDEC /* TLC.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7265BA418D012190081CDEC /* TLC.mp3 */; };
+		D7265BA318D00E910081CDEC /* 01 - Beats.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7265BA218D00E910081CDEC /* 01 - Beats.wav */; };
 		D7265BAA18D023400081CDEC /* AMAudioFileReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7265BA918D023400081CDEC /* AMAudioFileReader.mm */; };
 		D7265BAC18D024BD0081CDEC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265BAB18D024BD0081CDEC /* AVFoundation.framework */; };
 		D7265BAE18D024C80081CDEC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265BAD18D024C80081CDEC /* AudioToolbox.framework */; };
@@ -54,14 +53,22 @@
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
 		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
 		D77F12941908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m in Sources */ = {isa = PBXBuildFile; fileRef = D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */; };
-		D7979D9918FD211B00648BE1 /* 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7979D9818FD211B00648BE1 /* 03.wav */; };
 		D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */; };
 		D7A97D5A1908DA8A00A0804D /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A97D581908DA8A00A0804D /* SVProgressHUD.m */; };
 		D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */; };
 		D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */; };
 		D7BD126518D97B6700C66D31 /* FilterBank.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD126418D97B6700C66D31 /* FilterBank.mm */; };
-		D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D7BD126618D97C0600C66D31 /* 04.m4a */; };
-		D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E1555A18E2C9DE00CE555E /* 02.wav */; };
+		D7E1555B18E2C9DE00CE555E /* 05 - Fort Minor.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E1555A18E2C9DE00CE555E /* 05 - Fort Minor.wav */; };
+		D7E62BC21928A38E00492AAB /* DataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E62BC11928A38E00492AAB /* DataPlot.m */; };
+		D7E62BC61928C75E00492AAB /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BC31928C75E00492AAB /* play@2x.png */; };
+		D7E62BC71928C75E00492AAB /* folder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BC41928C75E00492AAB /* folder@2x.png */; };
+		D7E62BC81928C75E00492AAB /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BC51928C75E00492AAB /* pause@2x.png */; };
+		D7E62BD81928FC2B00492AAB /* 06 - Dancing Queen.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BD31928FC2B00492AAB /* 06 - Dancing Queen.wav */; };
+		D7E62BD91928FC2B00492AAB /* 07 - SOS.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BD41928FC2B00492AAB /* 07 - SOS.wav */; };
+		D7E62BDA1928FC2B00492AAB /* 02 - Knowing me.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BD51928FC2B00492AAB /* 02 - Knowing me.wav */; };
+		D7E62BDB1928FC2B00492AAB /* 03 - Test 015.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BD61928FC2B00492AAB /* 03 - Test 015.wav */; };
+		D7E62BDC1928FC2B00492AAB /* 04 - Test 017.wav in Resources */ = {isa = PBXBuildFile; fileRef = D7E62BD71928FC2B00492AAB /* 04 - Test 017.wav */; };
+		F1D69EB31D264813AD406780 /* libPods-HearingAid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B334DBB46A184D9B9A9CFD20 /* libPods-HearingAid.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +82,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1AE7EB1F33A94441880CE68B /* Pods-HearingAid.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HearingAid.xcconfig"; path = "Pods/Pods-HearingAid.xcconfig"; sourceTree = "<group>"; };
+		B334DBB46A184D9B9A9CFD20 /* libPods-HearingAid.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HearingAid.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7265B4318D0046E0081CDEC /* HearingAid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HearingAid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7265B4618D0046E0081CDEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D7265B4818D0046E0081CDEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,8 +106,7 @@
 		D7265B7418D0046F0081CDEC /* HearingAidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HearingAidTests.m; sourceTree = "<group>"; };
 		D7265B7F18D008B10081CDEC /* FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDWaveformView.h; sourceTree = "<group>"; };
 		D7265B8018D008B10081CDEC /* FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDWaveformView.m; sourceTree = "<group>"; };
-		D7265BA218D00E910081CDEC /* 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 01.wav; sourceTree = "<group>"; };
-		D7265BA418D012190081CDEC /* TLC.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TLC.mp3; sourceTree = "<group>"; };
+		D7265BA218D00E910081CDEC /* 01 - Beats.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "01 - Beats.wav"; sourceTree = "<group>"; };
 		D7265BA818D023400081CDEC /* AMAudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMAudioFileReader.h; sourceTree = "<group>"; };
 		D7265BA918D023400081CDEC /* AMAudioFileReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AMAudioFileReader.mm; sourceTree = "<group>"; };
 		D7265BAB18D024BD0081CDEC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -163,7 +171,6 @@
 		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
 		D77F12921908C36500E4FEA1 /* NSMutableArray+MultiDimensional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+MultiDimensional.h"; sourceTree = "<group>"; };
 		D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+MultiDimensional.m"; sourceTree = "<group>"; };
-		D7979D9818FD211B00648BE1 /* 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 03.wav; sourceTree = "<group>"; };
 		D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		D7A97D571908DA8A00A0804D /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		D7A97D581908DA8A00A0804D /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -173,8 +180,17 @@
 		D7ABC0B918F5200F00F057D3 /* AMNiceGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMNiceGrid.m; sourceTree = "<group>"; };
 		D7BD126318D97B6700C66D31 /* FilterBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterBank.h; sourceTree = "<group>"; };
 		D7BD126418D97B6700C66D31 /* FilterBank.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterBank.mm; sourceTree = "<group>"; };
-		D7BD126618D97C0600C66D31 /* 04.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04.m4a; sourceTree = "<group>"; };
-		D7E1555A18E2C9DE00CE555E /* 02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 02.wav; sourceTree = "<group>"; };
+		D7E1555A18E2C9DE00CE555E /* 05 - Fort Minor.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "05 - Fort Minor.wav"; sourceTree = "<group>"; };
+		D7E62BC01928A38E00492AAB /* DataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPlot.h; sourceTree = "<group>"; };
+		D7E62BC11928A38E00492AAB /* DataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataPlot.m; sourceTree = "<group>"; };
+		D7E62BC31928C75E00492AAB /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		D7E62BC41928C75E00492AAB /* folder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder@2x.png"; sourceTree = "<group>"; };
+		D7E62BC51928C75E00492AAB /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
+		D7E62BD31928FC2B00492AAB /* 06 - Dancing Queen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "06 - Dancing Queen.wav"; sourceTree = "<group>"; };
+		D7E62BD41928FC2B00492AAB /* 07 - SOS.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "07 - SOS.wav"; sourceTree = "<group>"; };
+		D7E62BD51928FC2B00492AAB /* 02 - Knowing me.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "02 - Knowing me.wav"; sourceTree = "<group>"; };
+		D7E62BD61928FC2B00492AAB /* 03 - Test 015.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "03 - Test 015.wav"; sourceTree = "<group>"; };
+		D7E62BD71928FC2B00492AAB /* 04 - Test 017.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "04 - Test 017.wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +204,7 @@
 				D7265B4918D0046E0081CDEC /* CoreGraphics.framework in Frameworks */,
 				D7265B4B18D0046E0081CDEC /* UIKit.framework in Frameworks */,
 				D7265B4718D0046E0081CDEC /* Foundation.framework in Frameworks */,
+				F1D69EB31D264813AD406780 /* libPods-HearingAid.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +229,7 @@
 				D7265B4518D0046E0081CDEC /* Frameworks */,
 				D7265B4418D0046E0081CDEC /* Products */,
 				D7265B7E18D0088D0081CDEC /* References */,
+				1AE7EB1F33A94441880CE68B /* Pods-HearingAid.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,6 +252,7 @@
 				D7265B4818D0046E0081CDEC /* CoreGraphics.framework */,
 				D7265B4A18D0046E0081CDEC /* UIKit.framework */,
 				D7265B6818D0046F0081CDEC /* XCTest.framework */,
+				B334DBB46A184D9B9A9CFD20 /* libPods-HearingAid.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -243,13 +262,15 @@
 			children = (
 				D7265B5518D0046E0081CDEC /* AppDelegate.h */,
 				D7265B5618D0046E0081CDEC /* AppDelegate.m */,
-				D7265B5818D0046E0081CDEC /* Main_iPhone.storyboard */,
-				D7265B5B18D0046E0081CDEC /* Main_iPad.storyboard */,
-				D7265B5E18D0046E0081CDEC /* ViewController.h */,
-				D7265B5F18D0046E0081CDEC /* ViewController.mm */,
+				D7E62BC01928A38E00492AAB /* DataPlot.h */,
+				D7E62BC11928A38E00492AAB /* DataPlot.m */,
 				D7BD126318D97B6700C66D31 /* FilterBank.h */,
 				D7BD126418D97B6700C66D31 /* FilterBank.mm */,
+				D7265B5E18D0046E0081CDEC /* ViewController.h */,
+				D7265B5F18D0046E0081CDEC /* ViewController.mm */,
 				D7265B6118D0046E0081CDEC /* Images.xcassets */,
+				D7265B5B18D0046E0081CDEC /* Main_iPad.storyboard */,
+				D7265B5818D0046E0081CDEC /* Main_iPhone.storyboard */,
 				D7265B4D18D0046E0081CDEC /* Supporting Files */,
 			);
 			path = HearingAid;
@@ -258,15 +279,20 @@
 		D7265B4D18D0046E0081CDEC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D7979D9818FD211B00648BE1 /* 03.wav */,
-				D7E1555A18E2C9DE00CE555E /* 02.wav */,
-				D7BD126618D97C0600C66D31 /* 04.m4a */,
-				D7265BA418D012190081CDEC /* TLC.mp3 */,
-				D7265BA218D00E910081CDEC /* 01.wav */,
-				D7265B4E18D0046E0081CDEC /* HearingAid-Info.plist */,
-				D7265B4F18D0046E0081CDEC /* InfoPlist.strings */,
 				D7265B5218D0046E0081CDEC /* main.m */,
 				D7265B5418D0046E0081CDEC /* HearingAid-Prefix.pch */,
+				D7265B4E18D0046E0081CDEC /* HearingAid-Info.plist */,
+				D7E62BC41928C75E00492AAB /* folder@2x.png */,
+				D7E62BC51928C75E00492AAB /* pause@2x.png */,
+				D7E62BC31928C75E00492AAB /* play@2x.png */,
+				D7265BA218D00E910081CDEC /* 01 - Beats.wav */,
+				D7E62BD51928FC2B00492AAB /* 02 - Knowing me.wav */,
+				D7E62BD61928FC2B00492AAB /* 03 - Test 015.wav */,
+				D7E62BD71928FC2B00492AAB /* 04 - Test 017.wav */,
+				D7E1555A18E2C9DE00CE555E /* 05 - Fort Minor.wav */,
+				D7E62BD31928FC2B00492AAB /* 06 - Dancing Queen.wav */,
+				D7E62BD41928FC2B00492AAB /* 07 - SOS.wav */,
+				D7265B4F18D0046E0081CDEC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -453,9 +479,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7265B7818D0046F0081CDEC /* Build configuration list for PBXNativeTarget "HearingAid" */;
 			buildPhases = (
+				503521108634499F99A4C9FD /* Check Pods Manifest.lock */,
 				D7265B3F18D0046E0081CDEC /* Sources */,
 				D7265B4018D0046E0081CDEC /* Frameworks */,
 				D7265B4118D0046E0081CDEC /* Resources */,
+				A101ECB4C6864C3C8DE417B0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -522,14 +550,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7BD126718D97C4D00C66D31 /* 04.m4a in Resources */,
-				D7265BA518D012190081CDEC /* TLC.mp3 in Resources */,
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
-				D7E1555B18E2C9DE00CE555E /* 02.wav in Resources */,
+				D7E1555B18E2C9DE00CE555E /* 05 - Fort Minor.wav in Resources */,
+				D7E62BDB1928FC2B00492AAB /* 03 - Test 015.wav in Resources */,
 				D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */,
-				D7979D9918FD211B00648BE1 /* 03.wav in Resources */,
-				D7265BA318D00E910081CDEC /* 01.wav in Resources */,
+				D7E62BDC1928FC2B00492AAB /* 04 - Test 017.wav in Resources */,
+				D7E62BC71928C75E00492AAB /* folder@2x.png in Resources */,
+				D7E62BD91928FC2B00492AAB /* 07 - SOS.wav in Resources */,
+				D7E62BDA1928FC2B00492AAB /* 02 - Knowing me.wav in Resources */,
+				D7E62BC81928C75E00492AAB /* pause@2x.png in Resources */,
+				D7E62BD81928FC2B00492AAB /* 06 - Dancing Queen.wav in Resources */,
+				D7265BA318D00E910081CDEC /* 01 - Beats.wav in Resources */,
+				D7E62BC61928C75E00492AAB /* play@2x.png in Resources */,
 				D7265B5A18D0046E0081CDEC /* Main_iPhone.storyboard in Resources */,
 				D7265B5118D0046E0081CDEC /* InfoPlist.strings in Resources */,
 			);
@@ -544,6 +577,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		503521108634499F99A4C9FD /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A101ECB4C6864C3C8DE417B0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-HearingAid-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D7265B3F18D0046E0081CDEC /* Sources */ = {
@@ -571,6 +637,7 @@
 				D7265BC018D046BA0081CDEC /* AMAudioFileWriter.m in Sources */,
 				D7265BCA18D082A50081CDEC /* EAFUtilities.mm in Sources */,
 				D7265C0218D089540081CDEC /* Param.cpp in Sources */,
+				D7E62BC21928A38E00492AAB /* DataPlot.m in Sources */,
 				D77F12941908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m in Sources */,
 				D7ABC0BA18F5200F00F057D3 /* AMNiceGrid.m in Sources */,
 				D7265BFA18D089540081CDEC /* ChebyshevI.cpp in Sources */,
@@ -715,6 +782,7 @@
 		};
 		D7265B7918D0046F0081CDEC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AE7EB1F33A94441880CE68B /* Pods-HearingAid.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -729,6 +797,7 @@
 		};
 		D7265B7A18D0046F0081CDEC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AE7EB1F33A94441880CE68B /* Pods-HearingAid.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
