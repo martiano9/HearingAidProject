@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D71017BC19343F1B00A9B661 /* 001.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B019343F1B00A9B661 /* 001.wav */; };
+		D71017BD19343F1B00A9B661 /* 002.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B119343F1B00A9B661 /* 002.wav */; };
+		D71017BE19343F1B00A9B661 /* 003.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B219343F1B00A9B661 /* 003.wav */; };
+		D71017BF19343F1B00A9B661 /* 004.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B319343F1B00A9B661 /* 004.wav */; };
+		D71017C019343F1B00A9B661 /* 005.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B419343F1B00A9B661 /* 005.wav */; };
+		D71017C119343F1B00A9B661 /* 006.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B519343F1B00A9B661 /* 006.wav */; };
+		D71017C219343F1B00A9B661 /* 007.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B619343F1B00A9B661 /* 007.wav */; };
+		D71017C319343F1B00A9B661 /* 008.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B719343F1B00A9B661 /* 008.wav */; };
+		D71017C419343F1B00A9B661 /* 009.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B819343F1B00A9B661 /* 009.wav */; };
+		D71017C519343F1B00A9B661 /* 010.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017B919343F1B00A9B661 /* 010.wav */; };
+		D71017C619343F1B00A9B661 /* 011.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017BA19343F1B00A9B661 /* 011.wav */; };
+		D71017C719343F1B00A9B661 /* 012.wav in Resources */ = {isa = PBXBuildFile; fileRef = D71017BB19343F1B00A9B661 /* 012.wav */; };
 		D7265B4718D0046E0081CDEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265B4618D0046E0081CDEC /* Foundation.framework */; };
 		D7265B4918D0046E0081CDEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265B4818D0046E0081CDEC /* CoreGraphics.framework */; };
 		D7265B4B18D0046E0081CDEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7265B4A18D0046E0081CDEC /* UIKit.framework */; };
@@ -53,6 +65,7 @@
 		D7265C0618D089540081CDEC /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7265BF518D089540081CDEC /* State.cpp */; };
 		D73DF0C318F24F04005EB151 /* AMDataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = D73DF0C218F24F04005EB151 /* AMDataPlot.m */; };
 		D77F12941908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m in Sources */ = {isa = PBXBuildFile; fileRef = D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */; };
+		D79C46951929F81F00DDE974 /* 08 - The Cask Of Amontillado.wav in Resources */ = {isa = PBXBuildFile; fileRef = D79C46941929F81F00DDE974 /* 08 - The Cask Of Amontillado.wav */; };
 		D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */; };
 		D7A97D5A1908DA8A00A0804D /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A97D581908DA8A00A0804D /* SVProgressHUD.m */; };
 		D7ABC0B718F4FEC500F057D3 /* AMNiceScale.m in Sources */ = {isa = PBXBuildFile; fileRef = D7ABC0B618F4FEC500F057D3 /* AMNiceScale.m */; };
@@ -84,6 +97,18 @@
 /* Begin PBXFileReference section */
 		1AE7EB1F33A94441880CE68B /* Pods-HearingAid.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HearingAid.xcconfig"; path = "Pods/Pods-HearingAid.xcconfig"; sourceTree = "<group>"; };
 		B334DBB46A184D9B9A9CFD20 /* libPods-HearingAid.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HearingAid.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D71017B019343F1B00A9B661 /* 001.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 001.wav; sourceTree = "<group>"; };
+		D71017B119343F1B00A9B661 /* 002.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 002.wav; sourceTree = "<group>"; };
+		D71017B219343F1B00A9B661 /* 003.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 003.wav; sourceTree = "<group>"; };
+		D71017B319343F1B00A9B661 /* 004.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 004.wav; sourceTree = "<group>"; };
+		D71017B419343F1B00A9B661 /* 005.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 005.wav; sourceTree = "<group>"; };
+		D71017B519343F1B00A9B661 /* 006.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 006.wav; sourceTree = "<group>"; };
+		D71017B619343F1B00A9B661 /* 007.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 007.wav; sourceTree = "<group>"; };
+		D71017B719343F1B00A9B661 /* 008.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 008.wav; sourceTree = "<group>"; };
+		D71017B819343F1B00A9B661 /* 009.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 009.wav; sourceTree = "<group>"; };
+		D71017B919343F1B00A9B661 /* 010.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 010.wav; sourceTree = "<group>"; };
+		D71017BA19343F1B00A9B661 /* 011.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 011.wav; sourceTree = "<group>"; };
+		D71017BB19343F1B00A9B661 /* 012.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 012.wav; sourceTree = "<group>"; };
 		D7265B4318D0046E0081CDEC /* HearingAid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HearingAid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7265B4618D0046E0081CDEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D7265B4818D0046E0081CDEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -171,6 +196,7 @@
 		D73DF0C218F24F04005EB151 /* AMDataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataPlot.m; sourceTree = "<group>"; };
 		D77F12921908C36500E4FEA1 /* NSMutableArray+MultiDimensional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+MultiDimensional.h"; sourceTree = "<group>"; };
 		D77F12931908C36500E4FEA1 /* NSMutableArray+MultiDimensional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+MultiDimensional.m"; sourceTree = "<group>"; };
+		D79C46941929F81F00DDE974 /* 08 - The Cask Of Amontillado.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "08 - The Cask Of Amontillado.wav"; sourceTree = "<group>"; };
 		D7A97D561908DA8A00A0804D /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		D7A97D571908DA8A00A0804D /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		D7A97D581908DA8A00A0804D /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -285,9 +311,22 @@
 				D7E62BC41928C75E00492AAB /* folder@2x.png */,
 				D7E62BC51928C75E00492AAB /* pause@2x.png */,
 				D7E62BC31928C75E00492AAB /* play@2x.png */,
+				D71017B019343F1B00A9B661 /* 001.wav */,
+				D71017B119343F1B00A9B661 /* 002.wav */,
+				D71017B219343F1B00A9B661 /* 003.wav */,
+				D71017B319343F1B00A9B661 /* 004.wav */,
+				D71017B419343F1B00A9B661 /* 005.wav */,
+				D71017B519343F1B00A9B661 /* 006.wav */,
+				D71017B619343F1B00A9B661 /* 007.wav */,
+				D71017B719343F1B00A9B661 /* 008.wav */,
+				D71017B819343F1B00A9B661 /* 009.wav */,
+				D71017B919343F1B00A9B661 /* 010.wav */,
+				D71017BA19343F1B00A9B661 /* 011.wav */,
+				D71017BB19343F1B00A9B661 /* 012.wav */,
 				D7265BA218D00E910081CDEC /* 01 - Beats.wav */,
 				D7E62BD51928FC2B00492AAB /* 02 - Knowing me.wav */,
 				D7E62BD61928FC2B00492AAB /* 03 - Test 015.wav */,
+				D79C46941929F81F00DDE974 /* 08 - The Cask Of Amontillado.wav */,
 				D7E62BD71928FC2B00492AAB /* 04 - Test 017.wav */,
 				D7E1555A18E2C9DE00CE555E /* 05 - Fort Minor.wav */,
 				D7E62BD31928FC2B00492AAB /* 06 - Dancing Queen.wav */,
@@ -553,18 +592,31 @@
 				D7265B5D18D0046E0081CDEC /* Main_iPad.storyboard in Resources */,
 				D7265B6218D0046E0081CDEC /* Images.xcassets in Resources */,
 				D7E1555B18E2C9DE00CE555E /* 05 - Fort Minor.wav in Resources */,
+				D71017C619343F1B00A9B661 /* 011.wav in Resources */,
+				D71017C319343F1B00A9B661 /* 008.wav in Resources */,
+				D71017C019343F1B00A9B661 /* 005.wav in Resources */,
+				D71017C219343F1B00A9B661 /* 007.wav in Resources */,
 				D7E62BDB1928FC2B00492AAB /* 03 - Test 015.wav in Resources */,
+				D79C46951929F81F00DDE974 /* 08 - The Cask Of Amontillado.wav in Resources */,
 				D7A97D591908DA8A00A0804D /* SVProgressHUD.bundle in Resources */,
 				D7E62BDC1928FC2B00492AAB /* 04 - Test 017.wav in Resources */,
 				D7E62BC71928C75E00492AAB /* folder@2x.png in Resources */,
 				D7E62BD91928FC2B00492AAB /* 07 - SOS.wav in Resources */,
+				D71017BD19343F1B00A9B661 /* 002.wav in Resources */,
 				D7E62BDA1928FC2B00492AAB /* 02 - Knowing me.wav in Resources */,
+				D71017BE19343F1B00A9B661 /* 003.wav in Resources */,
 				D7E62BC81928C75E00492AAB /* pause@2x.png in Resources */,
 				D7E62BD81928FC2B00492AAB /* 06 - Dancing Queen.wav in Resources */,
+				D71017C119343F1B00A9B661 /* 006.wav in Resources */,
+				D71017C519343F1B00A9B661 /* 010.wav in Resources */,
 				D7265BA318D00E910081CDEC /* 01 - Beats.wav in Resources */,
 				D7E62BC61928C75E00492AAB /* play@2x.png in Resources */,
+				D71017C719343F1B00A9B661 /* 012.wav in Resources */,
 				D7265B5A18D0046E0081CDEC /* Main_iPhone.storyboard in Resources */,
+				D71017BC19343F1B00A9B661 /* 001.wav in Resources */,
 				D7265B5118D0046E0081CDEC /* InfoPlist.strings in Resources */,
+				D71017BF19343F1B00A9B661 /* 004.wav in Resources */,
+				D71017C419343F1B00A9B661 /* 009.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

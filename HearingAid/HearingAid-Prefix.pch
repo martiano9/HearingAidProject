@@ -14,3 +14,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define AUTOCORR_SAMPLE_RATE 2756 // 44100/16
+#define REDUCED_SAMPLE_RATE_TIME 16
+#define SECONDS_TO_ANALYZE 2

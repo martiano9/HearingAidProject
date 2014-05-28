@@ -78,6 +78,12 @@ void DeallocateAudioBuffer(float **audio, int numChannels)
 	free(audio);
 	audio = NULL;
 }
+void DeallocateAudioBuffer(float *audio)
+{
+	if (!audio) return;
+	free(audio);
+	audio = NULL;
+}
 // ---------------------------------------------------------------------------------------------------------------------------
 
 float **AllocateAudioBuffer(int numChannels, int numFrames)
@@ -95,7 +101,20 @@ float **AllocateAudioBuffer(int numChannels, int numFrames)
 		else memset(audio[v], 0, numFrames*sizeof(float));
 	}
 	return audio;
-}	
+}
+
+float *AllocateAudioBuffer(int numFrames)
+{
+	// Allocate buffer for output
+	float *audio = (float*)malloc(numFrames*sizeof(float));
+    if (!audio) {
+        DeallocateAudioBuffer(audio);
+        return NULL;
+    }
+    else memset(audio, 0, numFrames*sizeof(float));
+	
+	return audio;
+}
 // ---------------------------------------------------------------------------------------------------------------------------
 
 SInt16 **AllocateAudioBufferSInt16(int numChannels, int numFrames)
@@ -122,12 +141,23 @@ void ClearAudioBuffer(float **audio, long numChannels, long numFrames)
 		memset(audio[v], 0, numFrames*sizeof(float));
 	}
 }
+
+void ClearAudioBuffer(float *audio, long numFrames)
+{
+    memset(audio, 0, numFrames*sizeof(float));
+}
 // ---------------------------------------------------------------------------------------------------------------------------
 
 void ClearAudioBuffer(SInt16 **audio, long numChannels, long numFrames)
 {
 	for (long v = 0; v < numChannels; v++) {
 		memset(audio[v], 0, numFrames*sizeof(SInt16));
+	}
+}
+
+void CopyAudioBuffer(float* source, float* dest, long numFrames) {
+    for (long v = 0; v < numFrames; v++) {
+		dest[v] = source[v];
 	}
 }
 

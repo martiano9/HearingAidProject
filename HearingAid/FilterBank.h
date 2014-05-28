@@ -16,17 +16,14 @@
 
 @interface FilterBank : NSObject {
     Dsp::Filter *_filter;
-    Dsp::Filter *_filter1;
+    Dsp::Filter *_lpFilter;
     float* _originalData;
     
     float* _filteredData;
     float* _filteredData16;
-    float* _atom;
+    float* _autocorrData;
     
     NSURL* _fileURL;
-    
-    int _atomReducedTime;
-    int _stepToProceed;
 }
 
 @property (nonatomic) int frames;
@@ -34,9 +31,14 @@
 
 
 - (id)initWithFrames:(int)frames filterType:(int)bankIndex data:(float*)data;
-- (void)processToStep:(int)step;
-- (float)getNumberOfFrames;
-- (float*)getNumberSoundData;
+- (void)process;
+//- (void)processToStep:(int)step;
+//- (float)getNumberOfFrames;
+//- (float*)getNumberSoundData;
+
+- (float)getSampleRate;
+- (int)getFrames;
+- (float*)getAutocorrData;
 
 @end
 

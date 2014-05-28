@@ -18,8 +18,8 @@
 #import <GraphKit/UIColor+GraphKit.h>
 
 #define COUNTOF(x) (sizeof(x)/sizeof(*x))
-#define k 200
-#define h 1.8
+#define k 400
+#define h 1.5
 
 @interface ViewController () <FilterBankDelegate, RMPickerViewControllerDelegate> {
     NSArray *songsName;
@@ -50,12 +50,12 @@
                                            @"04 - Test 017",
                                            @"05 - Fort Minor",
                                            @"06 - Dancing Queen",
-                                           @"07 - SOS", nil];
+                                           @"07 - SOS",
+                                           @"08 - The Cask Of Amontillado",
+                                           @"001",@"002",@"003",@"004",@"005",
+                                           @"006",@"007",@"008",@"009",@"010",@"011",@"012",nil];
     _originalFile = [NSURL fileURLWithPath:inputSound];
     
-    // Time
-    startTime = 0.0;    // in seconds
-    duration = 10;       // in seconds
     //
     // ====================================================================================
     
@@ -71,6 +71,7 @@
     [self.tracker setBackgroundColor:[UIColor gk_alizarinColor]];
     self.tracker.alpha = 0.5;
     [self.view addSubview:self.tracker];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -89,11 +90,10 @@
     [reader openFileForRead:_originalFile];
     
     // Allocate original data
-    float frames = reader.sampleRate * duration;
+    float frames = reader.fileNumFrames;
     _originalData = AllocateAudioBuffer(2, (int)reader.fileNumFrames);
     [reader readFloatsConsecutive:frames
-                        intoArray:_originalData
-                       withOffset:startTime*reader.sampleRate];
+                        intoArray:_originalData];
     
     //
     // Init filter bank1
@@ -136,21 +136,39 @@
     _finishedCount ++;
    
     if (_finishedCount == 6) {
-        int nFrames = [bank6 getNumberOfFrames];
+        int nFrames = [bank6 getFrames];
         float *sum = new float[nFrames];
         
-        float* bank6Data = [bank6 getNumberSoundData];
-        float* bank5Data = [bank5 getNumberSoundData];
-        float* bank4Data = [bank4 getNumberSoundData];
-        float* bank3Data = [bank3 getNumberSoundData];
-        float* bank2Data = [bank2 getNumberSoundData];
-        float* bank1Data = [bank1 getNumberSoundData];
+        float* bank6Data = [bank6 getAutocorrData];
+        float* bank5Data = [bank5 getAutocorrData];
+        float* bank4Data = [bank4 getAutocorrData];
+        float* bank3Data = [bank3 getAutocorrData];
+        float* bank2Data = [bank2 getAutocorrData];
+        float* bank1Data = [bank1 getAutocorrData];
         
+        int firstLowIndex = 0;
+        int secondLowIndex = 0;
+        int secondPeakIndex = 0;
         for (int i = 0; i<nFrames; i++) {
             sum[i] = bank6Data[i]+bank5Data[i]+bank4Data[i]+bank3Data[i]+bank2Data[i]+bank1Data[i];
+            if (firstLowIndex == 0) {
+                if (i>=1 && sum[i] > sum[i-1]) {
+                    firstLowIndex = i;
+                }
+                
+            } else if (secondPeakIndex == 0 && i > firstLowIndex) {
+                if (sum[i] < sum[i-1]) {
+                    secondPeakIndex = i;
+                }
+            } else if (secondLowIndex == 0) {
+                if (sum[i] > sum[i-1]) {
+                    secondLowIndex = i;
+                }
+            }
         }
-        
-        
+        for (int i = 0; i<(secondPeakIndex+firstLowIndex)*0.5; i++) {
+            sum[i] = sum[secondLowIndex];
+        }
   
         [self writeFileName:@"bank1.txt" fromData:bank1Data frames:nFrames];
         [self writeFileName:@"bank2.txt" fromData:bank2Data frames:nFrames];
@@ -171,6 +189,21 @@
     }
 }
 
+- (float)slope:(float*)data frames:(int)frames {
+    float slope = 0.0;
+    float A = 0.0, B = 0.0, C = 0.0, D = 0.0;
+    
+    for(int i=0; i<frames; i++)
+    {
+        A+=i;
+        B+=data[i];
+        C+=i*i;
+        D+=i*data[i];
+    }
+    slope=(frames*D-A*B)/(frames*C-A*A);
+    return slope;
+}
+
 - (void)writeFileName:(NSString*)name fromData:(float*)data frames:(int)frames {
     NSMutableString *str = [NSMutableString stringWithString:@"0"];
     
@@ -186,6 +219,9 @@
 }
 
 - (float*)computePeak:(float*)data frames:(int)frames {
+    float slope = [self slope:data frames:frames];
+    NSLog(@"%f",slope);
+    
     float * peaks = new float[frames];
     float peakMax = 0.0;
     
@@ -227,9 +263,16 @@
     deviation = sqrtf(deviation / countPositiveValue);
     
     // Remove local peaks which are “small” in global context
-    float foo = h * deviation;
+    float foo = 0.0;
+    if (slope>0) {
+        foo = 1.1 * deviation;
+    } else {
+        foo = 1.4 * deviation;
+    }
+    
     for (int i = 0; i < frames; i++) {
-        if (peaks[i] > 0 && (peaks[i] - mean) <= foo) {
+        float sloped = foo + i*slope;
+        if (peaks[i] > 0 && (peaks[i] - mean) <= sloped) {
             peaks[i] = 0;
         }
     }
@@ -261,42 +304,33 @@
     }
     [self writeFileName:@"peaks.txt" fromData:peaks frames:frames];
     
-    // Compute mean of pulse array
-    
-    //    peaks = peaks(banks); %apply peak picking
-    //    peaks_index=find(peaks > 0); %find peaks above 0
-    //    for i=1:length(peaks_index)
-    //        peaks_seconds(i) = peaks_index(i)/27563*10; %transfom peak sample time to seconds (10 seconds)
-    //    end
-    //    peaks_seconds=peaks_seconds';  %make peaks a column matrix-array
-    //    for i=2:length(peaks_seconds)
-    //        remainder(i) = mod(peaks_seconds(i+1), peaks_seconds(2));    %estimate the remainder after division of the second peak with the rest of them (seems that first peak is a bug)
-    //    end
-    //    mean_remainder=mean(remainder); %get the mean of the remainder of the peaks
-    //    pulse_index = 1-mean_remainder;   %define pulse index after subtraction with the mean remainder of the peak
-    
     float meanRemainder = 0.0;
     int countPeak = 0;
     float secondPeak;
+    float maxPeak = 0.0;
     for (int i = 0; i < frames; i++) {
         if (peaks[i]>0) {
             countPeak ++;
             
-            float peakInSecond = (float)i*10/27563;
+            float peakInSecond = (float)i/AUTOCORR_SAMPLE_RATE;
             
-            if (countPeak == 2) {
+            if (countPeak == 1) {
                 secondPeak = peakInSecond;
-            } else if (countPeak > 2) {
+                maxPeak = data[i];
+            } else if (countPeak > 1) {
+                //maxPeak = fmaxf(data[i], maxPeak);
                 float remainder = fmodf(peakInSecond,secondPeak);
-                meanRemainder += remainder;
+                if(remainder<=0.15 || remainder>=0.85) {
+                    meanRemainder += data[i];
+                }
             }
-            
         }
+        //if (countPeak == 10) break;
     }
-    meanRemainder = meanRemainder / (countPeak-1);
+    meanRemainder = (meanRemainder / maxPeak) * -0.25;
     
     
-    float pulseIndex = 1 - meanRemainder;
+    float pulseIndex = expf(meanRemainder);
     NSLog(@"Pulse Index: %.15f", pulseIndex);
     
     return peaks;
@@ -338,9 +372,9 @@
     slider.value = durInMiliSec;
     self.timeLabel.text = [NSString stringWithFormat:@"%.1f",dur];
     CGRect rect = self.tracker.frame;
-    rect.origin.x = (dur/duration)*lineGraph.size.width;
+    rect.origin.x = (dur/SECONDS_TO_ANALYZE)*lineGraph.size.width;
     [self.tracker setFrame:rect];
-    if (dur >= 10) {
+    if (dur >= SECONDS_TO_ANALYZE) {
         [self.player pause];
         [_timer invalidate];
         _timer = nil;
@@ -395,7 +429,7 @@
     UISlider* xslider = sender;
     self.timeLabel.text = [NSString stringWithFormat:@"%.1f",xslider.value/1000.0];
     CGRect rect = self.tracker.frame;
-    rect.origin.x = (xslider.value/1000.0/duration)*lineGraph.size.width;
+    rect.origin.x = (xslider.value/1000.0/SECONDS_TO_ANALYZE)*lineGraph.size.width;
     [self.tracker setFrame:rect];
 }
 
@@ -410,8 +444,8 @@
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:_originalFile error:nil];
     [self.player prepareToPlay];
     //[self.player seekToTime:CMTimeMake(0, startTime)];
-    slider.maximumValue = duration*1000;
-    slider.value = startTime;
+    slider.maximumValue = SECONDS_TO_ANALYZE*1000;
+    slider.value = 0;
     _playing = NO;
     
     [self _startAnalizing];
@@ -420,12 +454,12 @@
     [SVProgressHUD showWithStatus:@"Analyzing" maskType:SVProgressHUDMaskTypeBlack];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [bank1 processToStep:_step];
-        [bank2 processToStep:_step];
-        [bank3 processToStep:_step];
-        [bank4 processToStep:_step];
-        [bank5 processToStep:_step];
-        [bank6 processToStep:_step];
+        [bank1 process];
+        [bank2 process];
+        [bank3 process];
+        [bank4 process];
+        [bank5 process];
+        [bank6 process];
     });
 }
 
