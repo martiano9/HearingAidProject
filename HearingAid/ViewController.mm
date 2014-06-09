@@ -19,10 +19,10 @@
 
 #define COUNTOF(x) (sizeof(x)/sizeof(*x))
 #define k 400
-#define h 1.5
+#define h 1.1
 
 @interface ViewController () <FilterBankDelegate, RMPickerViewControllerDelegate> {
-    NSArray *songsName;
+    NSMutableArray *songsName;
     int _finishedCount;
     NSTimer *_timer;
     BOOL _playing;
@@ -41,30 +41,27 @@
 - (void)viewDidLoad {
     // ====================================================================================
     //
-    
+
     // Path for original file
-    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:@"01 - Beats" ofType:@"wav"];
-    songsName = [NSArray arrayWithObjects: @"01 - Beats",
-                                           @"02 - Knowing me",
-                                           @"03 - Test 015",
-                                           @"04 - Test 017",
-                                           @"05 - Fort Minor",
-                                           @"06 - Dancing Queen",
-                                           @"07 - SOS",
-                                           @"08 - The Cask Of Amontillado",
-                                           @"001",@"002",@"003",@"004",@"005",
-                                           @"006",@"007",@"008",@"009",@"010",@"011",@"012",nil];
+    songsName = [[NSMutableArray alloc] init];
+    
+    NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
+    NSFileManager *filemgr = [[NSFileManager alloc] init];
+    
+    NSArray *allFiles = [filemgr contentsOfDirectoryAtPath:bundlePath error:NULL];
+    for (NSString *fileName in allFiles)
+    {
+        if ([[fileName pathExtension] isEqualToString:@"wav"])
+        {
+            [songsName addObject:[fileName stringByDeletingPathExtension]];
+        }
+    }
+    NSString *inputSound  = [[NSBundle mainBundle] pathForResource:songsName[0] ofType:@"wav"];
+    
     _originalFile = [NSURL fileURLWithPath:inputSound];
     
     //
     // ====================================================================================
-    
-    // Wave form setup
-//    waveform.alpha = 1.0f;
-//    waveform.audioURL = _originalFile;
-//    waveform.doesAllowScrubbing = YES;
-//    waveform.doesAllowStretchAndScroll = YES;
-
     self.view.backgroundColor = [UIColor gk_peterRiverColor];
     
     self.tracker = [[UIView alloc] initWithFrame:CGRectMake(lineGraph.frame.origin.x, lineGraph.frame.origin.y, 1, 240)];
@@ -151,24 +148,23 @@
         int secondPeakIndex = 0;
         for (int i = 0; i<nFrames; i++) {
             sum[i] = bank6Data[i]+bank5Data[i]+bank4Data[i]+bank3Data[i]+bank2Data[i]+bank1Data[i];
-            if (firstLowIndex == 0) {
-                if (i>=1 && sum[i] > sum[i-1]) {
-                    firstLowIndex = i;
-                }
-                
-            } else if (secondPeakIndex == 0 && i > firstLowIndex) {
-                if (sum[i] < sum[i-1]) {
-                    secondPeakIndex = i;
-                }
-            } else if (secondLowIndex == 0) {
-                if (sum[i] > sum[i-1]) {
-                    secondLowIndex = i;
-                }
-            }
+//            if (firstLowIndex == 0) {
+//                if (i>=1 && sum[i] > sum[i-1]) {
+//                    firstLowIndex = i;
+//                }
+//            } else if (secondPeakIndex == 0 && i > firstLowIndex) {
+//                if (sum[i] < sum[i-1]) {
+//                    secondPeakIndex = i;
+//                }
+//            } else if (secondLowIndex == 0) {
+//                if (sum[i] > sum[i-1]) {
+//                    secondLowIndex = i;
+//                }
+//            }
         }
-        for (int i = 0; i<(secondPeakIndex+firstLowIndex)*0.5; i++) {
-            sum[i] = sum[secondLowIndex];
-        }
+//        for (int i = 0; i<(secondPeakIndex+firstLowIndex)*0.5; i++) {
+//            sum[i] = sum[secondLowIndex];
+//        }
   
         [self writeFileName:@"bank1.txt" fromData:bank1Data frames:nFrames];
         [self writeFileName:@"bank2.txt" fromData:bank2Data frames:nFrames];
@@ -262,17 +258,10 @@
     }
     deviation = sqrtf(deviation / countPositiveValue);
     
-    // Remove local peaks which are “small” in global context
-    float foo = 0.0;
-    if (slope>0) {
-        foo = 1.1 * deviation;
-    } else {
-        foo = 1.4 * deviation;
-    }
-    
+    // Remove local peaks which are “small” in global context d
     for (int i = 0; i < frames; i++) {
-        float sloped = foo + i*slope;
-        if (peaks[i] > 0 && (peaks[i] - mean) <= sloped) {
+        float sloped = h*deviation;
+        if (peaks[i] > 0 && (peaks[i] - (mean+ (i*slope))) <= sloped) {
             peaks[i] = 0;
         }
     }
@@ -304,31 +293,71 @@
     }
     [self writeFileName:@"peaks.txt" fromData:peaks frames:frames];
     
+    NSMutableArray *peakEnergyArray = [[NSMutableArray alloc] init];
+    NSMutableArray *peakTimeArray = [[NSMutableArray alloc] init];
+    
     float meanRemainder = 0.0;
     int countPeak = 0;
-    float secondPeak;
-    float maxPeak = 0.0;
+
+    // highest peak
+    float fhighestPeak = 0.0;
+    float fhighestPeakTime = 0.0;
+    int fhighestPeakIndex = 0.0;
+    // 2nd highest peak
+    float shighestPeak = 0.0;
+    float shighestPeakTime = 0.0;
+    int shighestPeakIndex = 0.0;
+    
+    // Add peaks to array and find the highest and 2nd highest peak
     for (int i = 0; i < frames; i++) {
         if (peaks[i]>0) {
-            countPeak ++;
-            
-            float peakInSecond = (float)i/AUTOCORR_SAMPLE_RATE;
-            
-            if (countPeak == 1) {
-                secondPeak = peakInSecond;
-                maxPeak = data[i];
-            } else if (countPeak > 1) {
-                //maxPeak = fmaxf(data[i], maxPeak);
-                float remainder = fmodf(peakInSecond,secondPeak);
-                if(remainder<=0.15 || remainder>=0.85) {
-                    meanRemainder += data[i];
+            countPeak++;
+            // Start analyzing from 2nd peak
+            if (countPeak > 1) {
+                float time = (float)i/AUTOCORR_SAMPLE_RATE;
+                [peakTimeArray addObject:[NSNumber numberWithFloat:time]];
+                [peakEnergyArray addObject:[NSNumber numberWithFloat:data[i]]];
+                if (data[i] > fhighestPeak) {
+                    fhighestPeak = data[i];
+                    fhighestPeakIndex = countPeak;
+                    fhighestPeakTime = time;
                 }
             }
         }
-        //if (countPeak == 10) break;
     }
-    meanRemainder = (meanRemainder / maxPeak) * -0.25;
     
+    NSLog(@"Peak Count : %@",peakEnergyArray);
+    NSLog(@"Highest Peak Index : %d",fhighestPeakIndex);
+    NSLog(@"Second Highest Peak Index : %d",shighestPeakIndex);
+
+    
+    if (fhighestPeakIndex-1 == peakTimeArray.count) {
+        for (int i = 0; i < peakTimeArray.count; i++) {
+            float foo = [peakEnergyArray[i] floatValue];
+            if (foo > shighestPeak && foo < fhighestPeak) {
+                shighestPeak = foo;
+                shighestPeakIndex = i + 2;
+                shighestPeakTime = [peakTimeArray[i] floatValue];
+            }
+        }
+        fhighestPeak = shighestPeak;
+        fhighestPeakIndex = shighestPeakIndex;
+        fhighestPeakTime = shighestPeakTime;
+    }
+    
+    
+    NSLog(@"Peak Count : %@",peakEnergyArray);
+    NSLog(@"Highest Peak Index : %d",fhighestPeakIndex);
+    NSLog(@"Second Highest Peak Index : %d",shighestPeakIndex);
+    
+    for (int i = fhighestPeakIndex-1; i<peakTimeArray.count; i++) {
+        NSNumber* number = peakTimeArray[i];
+        float remainder = fmodf([number floatValue],fhighestPeakTime);
+        if(remainder<=0.15 || remainder>=0.85) {
+            meanRemainder += [peakEnergyArray[i] floatValue];
+        }
+    }
+    meanRemainder = (meanRemainder / fhighestPeak) * -0.25;
     
     float pulseIndex = expf(meanRemainder);
     NSLog(@"Pulse Index: %.15f", pulseIndex);
